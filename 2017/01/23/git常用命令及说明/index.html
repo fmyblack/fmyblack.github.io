@@ -87,12 +87,7 @@
 <meta name="description" content="git基本命令初始化git1git init
 创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。
 添加文件1git add test.txt
-将新建文件添加进版本控制
-提交修改1git commit -m &amp;quot;修改说明&amp;quot;
-查看状态1git status
-查看哪些文本被修改了
-查看具体文件修改内容1git diff test.text
-查看提交历史记录1g">
+将新建文件添加进版本控制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git常用命令及说明">
 <meta property="og:url" content="http://yoursite.com/2017/01/23/git常用命令及说明/index.html">
@@ -100,24 +95,14 @@
 <meta property="og:description" content="git基本命令初始化git1git init
 创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。
 添加文件1git add test.txt
-将新建文件添加进版本控制
-提交修改1git commit -m &amp;quot;修改说明&amp;quot;
-查看状态1git status
-查看哪些文本被修改了
-查看具体文件修改内容1git diff test.text
-查看提交历史记录1g">
-<meta property="og:updated_time" content="2017-01-23T13:52:23.000Z">
+将新建文件添加进版本控制">
+<meta property="og:updated_time" content="2017-01-26T09:40:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git常用命令及说明">
 <meta name="twitter:description" content="git基本命令初始化git1git init
 创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。
 添加文件1git add test.txt
-将新建文件添加进版本控制
-提交修改1git commit -m &amp;quot;修改说明&amp;quot;
-查看状态1git status
-查看哪些文本被修改了
-查看具体文件修改内容1git diff test.text
-查看提交历史记录1g">
+将新建文件添加进版本控制">
 
 
 
@@ -384,7 +369,8 @@
         <h2 id="git基本命令"><a href="#git基本命令" class="headerlink" title="git基本命令"></a>git基本命令</h2><h3 id="初始化git"><a href="#初始化git" class="headerlink" title="初始化git"></a>初始化git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure>
 <p>创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。</p>
 <h3 id="添加文件"><a href="#添加文件" class="headerlink" title="添加文件"></a>添加文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add test.txt</div></pre></td></tr></table></figure>
-<p>将新建文件添加进版本控制</p>
+<p>将新建文件添加进版本控制<a id="more"></a></p>
+<p>如果想把文件夹下的所有内容添加进版本控制，增加参数-f<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add -f src</div></pre></td></tr></table></figure></p>
 <h3 id="提交修改"><a href="#提交修改" class="headerlink" title="提交修改"></a>提交修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit -m &quot;修改说明&quot;</div></pre></td></tr></table></figure>
 <h3 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
 <p>查看哪些文本被修改了</p>
@@ -405,6 +391,7 @@
 <h3 id="放弃某文件的修改"><a href="#放弃某文件的修改" class="headerlink" title="放弃某文件的修改"></a>放弃某文件的修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -- test.txt</div></pre></td></tr></table></figure>
 <p>将test.txt会退到最近一次的git add状态（有点类似svn的还原）。</p>
 <h3 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rm test.txt</div></pre></td></tr></table></figure>
+<h3 id="推送到远程主机"><a href="#推送到远程主机" class="headerlink" title="推送到远程主机"></a>推送到远程主机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin master</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -595,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#git基本命令"><span class="nav-number">1.</span> <span class="nav-text">git基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化git"><span class="nav-number">1.1.</span> <span class="nav-text">初始化git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加文件"><span class="nav-number">1.2.</span> <span class="nav-text">添加文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交修改"><span class="nav-number">1.3.</span> <span class="nav-text">提交修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看状态"><span class="nav-number">1.4.</span> <span class="nav-text">查看状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看具体文件修改内容"><span class="nav-number">1.5.</span> <span class="nav-text">查看具体文件修改内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看提交历史记录"><span class="nav-number">1.6.</span> <span class="nav-text">查看提交历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本回退"><span class="nav-number">1.7.</span> <span class="nav-text">版本回退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看操作历史记录"><span class="nav-number">1.8.</span> <span class="nav-text">查看操作历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#放弃某文件的修改"><span class="nav-number">1.9.</span> <span class="nav-text">放弃某文件的修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文件"><span class="nav-number">1.10.</span> <span class="nav-text">删除文件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#git基本命令"><span class="nav-number">1.</span> <span class="nav-text">git基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化git"><span class="nav-number">1.1.</span> <span class="nav-text">初始化git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加文件"><span class="nav-number">1.2.</span> <span class="nav-text">添加文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交修改"><span class="nav-number">1.3.</span> <span class="nav-text">提交修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看状态"><span class="nav-number">1.4.</span> <span class="nav-text">查看状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看具体文件修改内容"><span class="nav-number">1.5.</span> <span class="nav-text">查看具体文件修改内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看提交历史记录"><span class="nav-number">1.6.</span> <span class="nav-text">查看提交历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本回退"><span class="nav-number">1.7.</span> <span class="nav-text">版本回退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看操作历史记录"><span class="nav-number">1.8.</span> <span class="nav-text">查看操作历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#放弃某文件的修改"><span class="nav-number">1.9.</span> <span class="nav-text">放弃某文件的修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文件"><span class="nav-number">1.10.</span> <span class="nav-text">删除文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推送到远程主机"><span class="nav-number">1.11.</span> <span class="nav-text">推送到远程主机</span></a></li></ol></li></ol></div>
             
 
           </div>
