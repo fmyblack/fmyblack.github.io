@@ -84,16 +84,22 @@
 
 
 
-<meta name="description" content="配置类的使用多配置文件处理">
+<meta name="description" content="基本上，每个java项目总是需要读取配置，由于项目部署与本地的一些些微差异，我们有时会发现本地运行正常的服务正式部署之后却运行失败，有时，这就是由最基础的读取配置造成的。
+为了方便解决之后通用项目的配置读取问题，特意新写了一个配置读取类：
+代码清单1234567891011121314151617181920212223242526272829303132333435363738394041424">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java配置文件的使用选择">
 <meta property="og:url" content="http://yoursite.com/2017/01/23/java配置文件的使用选择/index.html">
 <meta property="og:site_name" content="我吃两碗">
-<meta property="og:description" content="配置类的使用多配置文件处理">
-<meta property="og:updated_time" content="2017-01-23T12:13:12.000Z">
+<meta property="og:description" content="基本上，每个java项目总是需要读取配置，由于项目部署与本地的一些些微差异，我们有时会发现本地运行正常的服务正式部署之后却运行失败，有时，这就是由最基础的读取配置造成的。
+为了方便解决之后通用项目的配置读取问题，特意新写了一个配置读取类：
+代码清单1234567891011121314151617181920212223242526272829303132333435363738394041424">
+<meta property="og:updated_time" content="2017-02-11T13:08:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java配置文件的使用选择">
-<meta name="twitter:description" content="配置类的使用多配置文件处理">
+<meta name="twitter:description" content="基本上，每个java项目总是需要读取配置，由于项目部署与本地的一些些微差异，我们有时会发现本地运行正常的服务正式部署之后却运行失败，有时，这就是由最基础的读取配置造成的。
+为了方便解决之后通用项目的配置读取问题，特意新写了一个配置读取类：
+代码清单1234567891011121314151617181920212223242526272829303132333435363738394041424">
 
 
 
@@ -357,7 +363,17 @@
       
 
       
-        <h2 id="配置类的使用"><a href="#配置类的使用" class="headerlink" title="配置类的使用"></a>配置类的使用</h2><h2 id="多配置文件处理"><a href="#多配置文件处理" class="headerlink" title="多配置文件处理"></a>多配置文件处理</h2>
+        <p>基本上，每个java项目总是需要读取配置，由于项目部署与本地的一些些微差异，我们有时会发现本地运行正常的服务正式部署之后却运行失败，有时，这就是由最基础的读取配置造成的。</p>
+<p>为了方便解决之后通用项目的配置读取问题，特意新写了一个配置读取类：</p>
+<h2 id="代码清单"><a href="#代码清单" class="headerlink" title="代码清单"></a>代码清单</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.fmyblack.util.config;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConfigHelper</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Properties&gt; confMap = <span class="keyword">new</span> HashMap&lt;String, Properties&gt;();</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 若conf文件夹在项目同级目录下，可以用它来初始化</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">		init(ConfigHelper.class.getClass().getResource(<span class="string">"/"</span>).getPath() + File.separator + <span class="string">"conf"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 我们默认main函数中的args参数第一项为配置文件路径</div><div class="line">	 * 如果调用时没有传参数，它会调用init()函数，这使得整个方法总是安全的</div><div class="line">	 * <span class="doctag">@param</span> args</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(args == <span class="keyword">null</span> || args.length == <span class="number">0</span>) &#123;</div><div class="line">			init();</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			init(args[<span class="number">0</span>]);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * file_path可以是文件路径或者文件夹路径</div><div class="line">	 * 如果是文件夹，它会遍历文件夹下的所有文件</div><div class="line">	 * <span class="doctag">@param</span> file_path</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(String file_path)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(file_path == <span class="keyword">null</span>) &#123;</div><div class="line">			init();</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			File dir = <span class="keyword">new</span> File(file_path);</div><div class="line">			init(dir);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> dir</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(File dir)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(dir == <span class="keyword">null</span>) &#123;</div><div class="line">			init();</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (dir.isDirectory()) &#123;</div><div class="line">			<span class="keyword">for</span> (File f : dir.listFiles()) &#123;</div><div class="line">				init(f);</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			init_conf(dir);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init_conf</span><span class="params">(File f)</span> </span>&#123;</div><div class="line">		Properties prop = <span class="keyword">new</span> Properties();</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			FileInputStream in = <span class="keyword">new</span> FileInputStream(f);</div><div class="line">			prop.load(in);</div><div class="line">			f.getName();</div><div class="line">			System.out.println(f.getName());</div><div class="line">			confMap.put(f.getName(), prop);</div><div class="line">			in.close();</div><div class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">			<span class="comment">// TODO Auto-generated catch block</span></div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getConf</span><span class="params">(String conf, String key)</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> getConf(conf, key, <span class="keyword">null</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 获取配置，conf为配置文件名，key为配置项</div><div class="line">	 * 如果文件名以常用的properties结尾，则无需传递文件拓展名</div><div class="line">	 * <span class="doctag">@param</span> conf</div><div class="line">	 * <span class="doctag">@param</span> key</div><div class="line">	 * <span class="doctag">@param</span> defaultValue</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getConf</span><span class="params">(String conf, String key, String defaultValue)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(!conf.contains(<span class="string">"."</span>)) &#123;</div><div class="line">			conf = conf + <span class="string">"."</span> + <span class="string">"properties"</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(confMap.containsKey(conf)) &#123;</div><div class="line">			<span class="keyword">return</span> confMap.get(conf).getProperty(key, defaultValue);</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">//ConfigHelper.init();</span></div><div class="line">		ConfigHelper.init(args);</div><div class="line">		System.out.println(getConf(<span class="string">"config"</span>, <span class="string">"test"</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>代码内容相对简单且都有注释，几个注意点：</p>
+<ol>
+<li>需要在项目入口函数初始化配置，配置内容全局有效，<code>init()</code>，<code>init(String[] args)</code>，<code>init(String file_path)</code>都可以；</li>
+<li>读取配置时使用<code>getConf(String conf, String key)</code>或者<code>getConf(String conf, String key, String defaultValue)</code>，<code>conf</code>为配置文件名，<code>key</code>为配置项。这个设定是为了解决多配置文件问题，如你总是只需要一个配置文件且不希望在每次调用时输入一次配置文件名，也可以重载此类或者实现一个该类的适配器来解决；</li>
+</ol>
+<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p>项目地址：<a href="https://github.com/fmyblack/fmyblack-util" target="_blank" rel="external">https://github.com/fmyblack/fmyblack-util</a></p>
+<p>文件地址：<a href="https://github.com/fmyblack/fmyblack-util/blob/master/src/main/java/com/fmyblack/util/config/ConfigHelper.java" target="_blank" rel="external">https://github.com/fmyblack/fmyblack-util/blob/master/src/main/java/com/fmyblack/util/config/ConfigHelper.java</a></p>
+
       
     </div>
 
@@ -395,10 +411,6 @@
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/14/长沙一瞥/" rel="next" title="长沙一瞥">
-                <i class="fa fa-chevron-left"></i> 长沙一瞥
-              </a>
             
           </div>
 
@@ -478,7 +490,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -487,7 +499,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -496,7 +508,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -551,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置类的使用"><span class="nav-number">1.</span> <span class="nav-text">配置类的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多配置文件处理"><span class="nav-number">2.</span> <span class="nav-text">多配置文件处理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码清单"><span class="nav-number">1.</span> <span class="nav-text">代码清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">2.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目地址"><span class="nav-number">3.</span> <span class="nav-text">项目地址</span></a></li></ol></div>
             
 
           </div>
