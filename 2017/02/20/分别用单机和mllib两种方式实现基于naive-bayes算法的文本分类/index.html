@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -94,7 +94,7 @@
 <meta property="og:description" content="spark mllib实现方式tf-idf值$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
 现有三分文档，分别为123a ba ca c c
 三篇都包含a，一篇包含b，两篇包含c，计算得值为：a的IDF值为0，所以a在任意一篇中的TF-">
-<meta property="og:updated_time" content="2017-02-20T06:36:29.000Z">
+<meta property="og:updated_time" content="2017-02-25T03:53:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分别用单机和mllib两种方式实现基于naive bayes算法的文本分类">
 <meta name="twitter:description" content="spark mllib实现方式tf-idf值$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
@@ -133,7 +133,7 @@
 
 
 
-  <title> 分别用单机和mllib两种方式实现基于naive bayes算法的文本分类 | 我吃两碗 </title>
+  <title> 分别用单机和mllib两种方式实现基于naive bayes算法的文本分类 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -154,7 +154,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -347,6 +347,9 @@
 <p>最终结果如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(1048576,[97,98],[0.0,0.6931471805599453])</div><div class="line">(1048576,[97,99],[0.0,0.28768207245178085])</div><div class="line">(1048576,[97,99],[0.0,0.5753641449035617])</div></pre></td></tr></table></figure>
 <p>其中1048576为<code>HashingTF</code>中<code>numFeatures</code>，可以理解为hash函数中的“桶”的个数；</p>
+<h2 id="单机实现"><a href="#单机实现" class="headerlink" title="单机实现"></a>单机实现</h2><h3 id="改造mllib中的tf-idf值"><a href="#改造mllib中的tf-idf值" class="headerlink" title="改造mllib中的tf-idf值"></a>改造mllib中的tf-idf值</h3><p>$$TF(t, d) = \frac{单词t出现的次数 + lamda}{类别d下单词总数 + 训练集中的单词个数 * lamda}$$</p>
+<p>$$IDF(t, D) = \ln\frac{|D|+2}{DF(t,D) + 1}$$</p>
+<p>$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+2}{DF(t,D) + 1}$$</p>
 
       
     </div>
@@ -529,7 +532,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-mllib实现方式"><span class="nav-number">1.</span> <span class="nav-text">spark mllib实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tf-idf值"><span class="nav-number">1.1.</span> <span class="nav-text">tf-idf值</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-mllib实现方式"><span class="nav-number">1.</span> <span class="nav-text">spark mllib实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tf-idf值"><span class="nav-number">1.1.</span> <span class="nav-text">tf-idf值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单机实现"><span class="nav-number">2.</span> <span class="nav-text">单机实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改造mllib中的tf-idf值"><span class="nav-number">2.1.</span> <span class="nav-text">改造mllib中的tf-idf值</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -672,7 +675,24 @@
   
       <!-- UY BEGIN -->
       <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
-      <!-- UY END -->
+      <!-- UY END --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 

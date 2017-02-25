@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -123,7 +123,7 @@
 
 
 
-  <title> 我吃两碗 </title>
+  <title> 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -144,7 +144,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right 
    page-home 
  ">
     <div class="headband"></div>
@@ -344,6 +344,9 @@
 <p>最终结果如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(1048576,[97,98],[0.0,0.6931471805599453])</div><div class="line">(1048576,[97,99],[0.0,0.28768207245178085])</div><div class="line">(1048576,[97,99],[0.0,0.5753641449035617])</div></pre></td></tr></table></figure>
 <p>其中1048576为<code>HashingTF</code>中<code>numFeatures</code>，可以理解为hash函数中的“桶”的个数；</p>
+<h2 id="单机实现"><a href="#单机实现" class="headerlink" title="单机实现"></a>单机实现</h2><h3 id="改造mllib中的tf-idf值"><a href="#改造mllib中的tf-idf值" class="headerlink" title="改造mllib中的tf-idf值"></a>改造mllib中的tf-idf值</h3><p>$$TF(t, d) = \frac{单词t出现的次数 + lamda}{类别d下单词总数 + 训练集中的单词个数 * lamda}$$</p>
+<p>$$IDF(t, D) = \ln\frac{|D|+2}{DF(t,D) + 1}$$</p>
+<p>$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+2}{DF(t,D) + 1}$$</p>
 
           
         
@@ -1292,7 +1295,24 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
 
