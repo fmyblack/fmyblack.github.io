@@ -94,7 +94,7 @@
 <meta property="og:description" content="spark mllib实现方式tf-idf值$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
 现有三分文档，分别为123a ba ca c c
 三篇都包含a，一篇包含b，两篇包含c，计算得值为：a的IDF值为0，所以a在任意一篇中的TF-">
-<meta property="og:updated_time" content="2017-02-25T03:53:39.000Z">
+<meta property="og:updated_time" content="2017-02-25T04:01:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分别用单机和mllib两种方式实现基于naive bayes算法的文本分类">
 <meta name="twitter:description" content="spark mllib实现方式tf-idf值$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
@@ -271,7 +271,7 @@
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="fmyblack">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="/images/touxiang.jpeg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -327,6 +327,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
 
           
 
@@ -349,7 +354,7 @@
 <p>其中1048576为<code>HashingTF</code>中<code>numFeatures</code>，可以理解为hash函数中的“桶”的个数；</p>
 <h2 id="单机实现"><a href="#单机实现" class="headerlink" title="单机实现"></a>单机实现</h2><h3 id="改造mllib中的tf-idf值"><a href="#改造mllib中的tf-idf值" class="headerlink" title="改造mllib中的tf-idf值"></a>改造mllib中的tf-idf值</h3><p>$$TF(t, d) = \frac{单词t出现的次数 + lamda}{类别d下单词总数 + 训练集中的单词个数 * lamda}$$</p>
 <p>$$IDF(t, D) = \ln\frac{|D|+2}{DF(t,D) + 1}$$</p>
-<p>$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+2}{DF(t,D) + 1}$$</p>
+<p>$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+2}{DF(t,D) + 1}$$<br>$$<br>\ln<br>$$</p>
 
       
     </div>
@@ -449,7 +454,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="/images/touxiang.jpeg"
                alt="fmyblack" />
           <p class="site-author-name" itemprop="name">fmyblack</p>
           <p class="site-description motion-element" itemprop="description"></p>
@@ -574,6 +579,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i> 访问人数<span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i> 总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>次</span>
+  
+  
+</div>
+
+
 
         
       </div>
