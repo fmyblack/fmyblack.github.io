@@ -304,16 +304,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/28/svn常用命令及说明/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/28/svn常用命令及说明/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -446,16 +436,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/20/分别用单机和mllib两种方式实现基于naive-bayes算法的文本分类/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/20/分别用单机和mllib两种方式实现基于naive-bayes算法的文本分类/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -480,15 +460,17 @@
       
         
           
-            <h2 id="spark-mllib实现方式"><a href="#spark-mllib实现方式" class="headerlink" title="spark mllib实现方式"></a>spark mllib实现方式</h2><h3 id="tf-idf值"><a href="#tf-idf值" class="headerlink" title="tf-idf值"></a>tf-idf值</h3><p>$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$<br>$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$</p>
+            <h2 id="spark-mllib实现方式"><a href="#spark-mllib实现方式" class="headerlink" title="spark mllib实现方式"></a>spark mllib实现方式</h2><h3 id="tf-idf值"><a href="#tf-idf值" class="headerlink" title="tf-idf值"></a>tf-idf值</h3><p>$$<br>IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}<br>$$</p>
+<p>$$<br>TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}<br>$$</p>
 <p>现有三分文档，分别为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a b</div><div class="line">a c</div><div class="line">a c c</div></pre></td></tr></table></figure></p>
-<p>三篇都包含a，一篇包含b，两篇包含c，计算得值为：<br>a的IDF值为0，所以a在任意一篇中的TF-IDF值都为0；<br>b的IDF值为 $\ln\frac{3+1}{1+1}$=0.6931471805599453；<br>c的IDF值为 $\ln\frac{3+1}{2+1}$=0.28768207245178085；<br>c在第三篇出现了两次，TF(t, d)=2，所以TF-IDF值需要乘以2；</p>
+<p>三篇都包含a，一篇包含b，两篇包含c，计算得值为：<br>a的IDF值为0，所以a在任意一篇中的TF-IDF值都为0；<br>b的IDF值为 $\ln\frac{3+1}{1+1}$=0.6931471805599453$；</p>
+<p>c的IDF值为 $\ln\frac{3+1}{2+1}$=0.28768207245178085$；<br>c在第三篇出现了两次，TF(t, d)=2，所以TF-IDF值需要乘以2；</p>
 <p>最终结果如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(1048576,[97,98],[0.0,0.6931471805599453])</div><div class="line">(1048576,[97,99],[0.0,0.28768207245178085])</div><div class="line">(1048576,[97,99],[0.0,0.5753641449035617])</div></pre></td></tr></table></figure>
 <p>其中1048576为<code>HashingTF</code>中<code>numFeatures</code>，可以理解为hash函数中的“桶”的个数；</p>
-<h2 id="单机实现"><a href="#单机实现" class="headerlink" title="单机实现"></a>单机实现</h2><h3 id="改造mllib中的tf-idf值"><a href="#改造mllib中的tf-idf值" class="headerlink" title="改造mllib中的tf-idf值"></a>改造mllib中的tf-idf值</h3><p>$$TF(t, d) = \frac{单词t出现的次数 + lamda}{类别d下单词总数 + 训练集中的单词个数 * lamda}$$</p>
-<p>$$IDF(t, D) = \ln\frac{|D|+2}{DF(t,D) + 1}$$</p>
-<p>$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+2}{DF(t,D) + 1}$$<br>$$<br>\ln<br>$$</p>
+<h2 id="单机实现"><a href="#单机实现" class="headerlink" title="单机实现"></a>单机实现</h2><h3 id="改造mllib中的tf-idf值"><a href="#改造mllib中的tf-idf值" class="headerlink" title="改造mllib中的tf-idf值"></a>改造mllib中的tf-idf值</h3><p>$$<br>TF(t, d) = \frac{单词t出现的次数 + lamda}{类别d下单词总数 + 训练集中的单词个数 * lamda}<br>$$</p>
+<p>$$<br>IDF(t, D) = \ln\frac{|D|+2}{DF(t,D) + 1}<br>$$</p>
+<p>$$<br>TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+2}{DF(t,D) + 1}<br>$$</p>
 
           
         
@@ -582,16 +564,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/13/常用的命名规范/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/13/常用的命名规范/" itemprop="commentCount"></span>
-                </a>
-              </span>
             
           
 
@@ -735,16 +707,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/10/Collection之list/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/10/Collection之list/" itemprop="commentCount"></span>
-                </a>
-              </span>
             
           
 
@@ -892,16 +854,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/05/hashmap的两种遍历方式耗时对比/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/05/hashmap的两种遍历方式耗时对比/" itemprop="commentCount"></span>
-                </a>
-              </span>
             
           
 
@@ -1051,16 +1003,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/23/git常用命令及说明/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/23/git常用命令及说明/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -1208,16 +1150,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/23/java配置文件的使用选择/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/23/java配置文件的使用选择/" itemprop="commentCount"></span>
-                </a>
-              </span>
             
           
 
@@ -1500,37 +1432,28 @@
 
   
 
-  
-    
-  
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"fmyblack"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
 
   
-    
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+
+
+
+
+	
+
+
+
+
+
   
 
 
 
 
 
+  
 
-
-
+  
 
 
 
