@@ -248,7 +248,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/日记/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/log4j使用详解/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="fmyblack">
@@ -273,8 +273,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/04/日记/" itemprop="url">
-                  日记
+                <a class="post-title-link" href="/2017/03/04/log4j使用详解/" itemprop="url">
+                  log4j使用详解
                 </a>
               
             
@@ -290,7 +290,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T10:57:51+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T15:51:21+08:00">
                 2017-03-04
               </time>
             
@@ -300,6 +300,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -328,7 +350,20 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">今天我和铁师妹在北师大自习</div></pre></td></tr></table></figure>
+            <p>在平时调试代码过程中，我们总是需要输出一些信息来帮助我们调试，帮助我们在线上环境产生异常之后找出错误。</p>
+<p>最近看到许多代码，在输出信息时总是不管三七二十一直接使用<code>system.out</code>来作为输出，但这样做有以下几个问题：</p>
+<ol>
+<li><p>不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；</p>
+</li>
+<li><p>如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；</p>
+</li>
+<li><p>输出的信息不好寻找，虽然我们会在输出的内容前添加一些信息来提示查找，但总不如定位到某个类的某一行来的直观，当然你也可以手动的写上类名与行数，但你并不能保证你写的类行数总是不变的；</p>
+</li>
+<li><p>输出的信息杂乱，没有格式规范；</p>
+<p>​</p>
+<p>这些问题我们都可以通过简单的配置log4j来解决，接下去我们由简到难看看如何使用log4j来规范我们项目的日志。</p>
+</li>
+</ol>
 
           
         
@@ -1390,7 +1425,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

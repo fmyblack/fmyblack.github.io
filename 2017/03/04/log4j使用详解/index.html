@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="code, novel, music" />
+  <meta name="keywords" content="java, log," />
 
 
 
@@ -84,13 +84,37 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="在平时调试代码过程中，我们总是需要输出一些信息来帮助我们调试，帮助我们在线上环境产生异常之后找出错误。
+最近看到许多代码，在输出信息时总是不管三七二十一直接使用system.out来作为输出，但这样做有以下几个问题：
+
+不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；
+
+如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；
+
+输出的信息不好寻找，虽然我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="log4j使用详解">
+<meta property="og:url" content="http://yoursite.com/2017/03/04/log4j使用详解/index.html">
 <meta property="og:site_name" content="我吃两碗">
-<meta property="og:updated_time" content="2017-01-14T12:20:57.000Z">
+<meta property="og:description" content="在平时调试代码过程中，我们总是需要输出一些信息来帮助我们调试，帮助我们在线上环境产生异常之后找出错误。
+最近看到许多代码，在输出信息时总是不管三七二十一直接使用system.out来作为输出，但这样做有以下几个问题：
+
+不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；
+
+如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；
+
+输出的信息不好寻找，虽然我">
+<meta property="og:updated_time" content="2017-03-04T08:08:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="log4j使用详解">
+<meta name="twitter:description" content="在平时调试代码过程中，我们总是需要输出一些信息来帮助我们调试，帮助我们在线上环境产生异常之后找出错误。
+最近看到许多代码，在输出信息时总是不管三七二十一直接使用system.out来作为输出，但这样做有以下几个问题：
+
+不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；
+
+如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；
+
+输出的信息不好寻找，虽然我">
 
 
 
@@ -118,19 +142,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/04/log4j使用详解/"/>
 
 
 
 
 
-  <title>
-  
-
-  
-    tags | 我吃两碗
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> log4j使用详解 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -151,7 +169,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right  ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,25 +262,203 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h2 class="post-title" itemprop="name headline">tags</h2>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/log4j使用详解/">
 
-</header>
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="fmyblack">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/touxiang.jpeg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="我吃两碗">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="我吃两碗" src="">
+    </span>
+  </span>
 
     
-    
-      <div class="tag-cloud">
-        <div class="tag-cloud-title">
-            目前共计 7 个标签
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                log4j使用详解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T15:51:21+08:00">
+                2017-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
         </div>
-        <div class="tag-cloud-tags">
-          <a href="/tags/collection/" style="font-size: 12px; color: #ccc">collection</a> <a href="/tags/git/" style="font-size: 12px; color: #ccc">git</a> <a href="/tags/java/" style="font-size: 30px; color: #111">java</a> <a href="/tags/java-log/" style="font-size: 12px; color: #ccc">java, log</a> <a href="/tags/shell/" style="font-size: 12px; color: #ccc">shell</a> <a href="/tags/性能/" style="font-size: 12px; color: #ccc">性能</a> <a href="/tags/轮子/" style="font-size: 12px; color: #ccc">轮子</a>
-        </div>
-      </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在平时调试代码过程中，我们总是需要输出一些信息来帮助我们调试，帮助我们在线上环境产生异常之后找出错误。</p>
+<p>最近看到许多代码，在输出信息时总是不管三七二十一直接使用<code>system.out</code>来作为输出，但这样做有以下几个问题：</p>
+<ol>
+<li><p>不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；</p>
+</li>
+<li><p>如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；</p>
+</li>
+<li><p>输出的信息不好寻找，虽然我们会在输出的内容前添加一些信息来提示查找，但总不如定位到某个类的某一行来的直观，当然你也可以手动的写上类名与行数，但你并不能保证你写的类行数总是不变的；</p>
+</li>
+<li><p>输出的信息杂乱，没有格式规范；</p>
+<p>​</p>
+<p>这些问题我们都可以通过简单的配置log4j来解决，接下去我们由简到难看看如何使用log4j来规范我们项目的日志。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>我想找到丸子</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/shoukuan.png" alt="fmyblack WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java-log/" rel="tag"># java, log</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/28/svn常用命令及说明/" rel="next" title="svn常用命令及说明">
+                <i class="fa fa-chevron-left"></i> svn常用命令及说明
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
           
@@ -477,6 +673,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
