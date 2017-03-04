@@ -88,10 +88,8 @@
 最近看到许多代码，在输出信息时总是不管三七二十一直接使用system.out来作为输出，但这样做有以下几个问题：
 
 不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；
-
 如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；
-
-输出的信息不好寻找，虽然我">
+输出的信息不好寻找，虽然我们会">
 <meta property="og:type" content="article">
 <meta property="og:title" content="log4j使用详解">
 <meta property="og:url" content="http://yoursite.com/2017/03/04/log4j使用详解/index.html">
@@ -100,21 +98,17 @@
 最近看到许多代码，在输出信息时总是不管三七二十一直接使用system.out来作为输出，但这样做有以下几个问题：
 
 不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；
-
 如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；
-
-输出的信息不好寻找，虽然我">
-<meta property="og:updated_time" content="2017-03-04T08:08:18.000Z">
+输出的信息不好寻找，虽然我们会">
+<meta property="og:updated_time" content="2017-03-04T11:36:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="log4j使用详解">
 <meta name="twitter:description" content="在平时调试代码过程中，我们总是需要输出一些信息来帮助我们调试，帮助我们在线上环境产生异常之后找出错误。
 最近看到许多代码，在输出信息时总是不管三七二十一直接使用system.out来作为输出，但这样做有以下几个问题：
 
 不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；
-
 如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；
-
-输出的信息不好寻找，虽然我">
+输出的信息不好寻找，虽然我们会">
 
 
 
@@ -376,17 +370,54 @@
         <p>在平时调试代码过程中，我们总是需要输出一些信息来帮助我们调试，帮助我们在线上环境产生异常之后找出错误。</p>
 <p>最近看到许多代码，在输出信息时总是不管三七二十一直接使用<code>system.out</code>来作为输出，但这样做有以下几个问题：</p>
 <ol>
-<li><p>不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；</p>
-</li>
-<li><p>如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；</p>
-</li>
-<li><p>输出的信息不好寻找，虽然我们会在输出的内容前添加一些信息来提示查找，但总不如定位到某个类的某一行来的直观，当然你也可以手动的写上类名与行数，但你并不能保证你写的类行数总是不变的；</p>
-</li>
-<li><p>输出的信息杂乱，没有格式规范；</p>
-<p>​</p>
-<p>这些问题我们都可以通过简单的配置log4j来解决，接下去我们由简到难看看如何使用log4j来规范我们项目的日志。</p>
-</li>
+<li>不好控制输出路径，所有的输出只能输出到同一个路径，没有逻辑性；</li>
+<li>如果调试结束后不将一些不必要的输出删除，到了线上环境数据量大，可能会影响一定的性能；</li>
+<li>输出的信息不好寻找，虽然我们会在输出的内容前添加一些信息来提示查找，但总不如定位到某个类的某一行来的直观，当然你也可以手动的写上类名与行数，但你并不能保证你写的类行数总是不变的；</li>
+<li>输出的信息杂乱，没有格式规范；</li>
 </ol>
+<p>这些问题我们都可以通过简单的配置log4j来解决，接下去我们由简到难看看如何使用log4j来规范我们项目的日志：<a id="more"></a></p>
+<hr>
+<h2 id="代码清单"><a href="#代码清单" class="headerlink" title="代码清单"></a>代码清单</h2><p>demo类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.fmyblack.util.config;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</div><div class="line"><span class="keyword">import</span> org.apache.log4j.PropertyConfigurator;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Log4jDemo</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Logger logger = Logger.getLogger(Log4jDemo.class);</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadConfigure</span><span class="params">(String location)</span> </span>&#123;</div><div class="line">		PropertyConfigurator.configure(location);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testLog</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(logger.isDebugEnabled()) &#123;</div><div class="line">			logger.debug(<span class="string">"this is debug level"</span>);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span>(logger.isInfoEnabled()) &#123;</div><div class="line">			logger.info(<span class="string">"this is info level"</span>);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		logger.warn(<span class="string">"this is warn level"</span>);</div><div class="line">		logger.error(<span class="string">"this is error level"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		String location = <span class="string">"src/main/resources/conf/log4j.properties"</span>;</div><div class="line">		loadConfigure(location);</div><div class="line">		testLog();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>log4j的配置文件：log4j.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"># root logger</div><div class="line">log4j.rootLogger=info,dailyfile,Console</div><div class="line"></div><div class="line">log4j.logger.com.fmyblack.util.config=debug,rollfile</div><div class="line"></div><div class="line">log4j.additivity.com.fmyblack.util.config=true</div><div class="line"></div><div class="line"># dailyfile</div><div class="line">log4j.appender.dailyfile=org.apache.log4j.DailyRollingFileAppender</div><div class="line">log4j.appender.dailyfile.File=log/daily.log</div><div class="line">log4j.appender.dailyfile.DatePattern=.yyyyMMdd</div><div class="line">log4j.appender.dailyfile.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.dailyfile.layout.ConversionPattern=%d&#123;yyyy-MM-dd HH:mm:ss&#125; [%-5p] %c&#123;1&#125;:%L - %m%n</div><div class="line"></div><div class="line"># rollfile</div><div class="line">log4j.appender.rollfile=org.apache.log4j.RollingFileAppender</div><div class="line">log4j.appender.rollfile.File=log/roll.log</div><div class="line">log4j.appender.rollfile.MaxFileSize=5MB</div><div class="line">log4j.appender.rollfile.MaxBackupIndex=10</div><div class="line">log4j.appender.rollfile.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.rollfile.layout.ConversionPattern=%d&#123;yyyy-MM-dd HH:mm:ss&#125; [%-5p] %c&#123;1&#125;:%L - %m%n</div><div class="line"></div><div class="line"># console</div><div class="line">log4j.appender.Console=org.apache.log4j.ConsoleAppender</div><div class="line">log4j.appender.Console.Target=System.out</div><div class="line">log4j.appender.Console.layout=org.apache.log4j.PatternLayout </div><div class="line">log4j.appender.Console.layout.ConversionPattern=%d&#123;yyyy-MM-dd HH:mm:ss&#125; [%-5p] %c&#123;1&#125;:%L - %m%n</div></pre></td></tr></table></figure>
+<p>项目地址：<a href="https://github.com/fmyblack/fmyblack-util" target="_blank" rel="external">https://github.com/fmyblack/fmyblack-util</a></p>
+<hr>
+<h2 id="log4j在代码中的使用"><a href="#log4j在代码中的使用" class="headerlink" title="log4j在代码中的使用"></a>log4j在代码中的使用</h2><h3 id="Logger类的使用"><a href="#Logger类的使用" class="headerlink" title="Logger类的使用"></a>Logger类的使用</h3><p>要使用log4j，需要依赖log4j包，项目使用maven管理的话，pom文件中需要加入依赖（本次示例使用<code>1.2.17</code>版本）：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;log4j&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;log4j&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.2.17&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<p>在具体的类中，我们只需要在类中声明一个成员变量<code>org.apache.log4j.Logger</code>就可以输出日志了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> Logger logger = Logger.getLogger(Log4jDemo.class);</div></pre></td></tr></table></figure>
+<p>输出的日志中最常见的有四个级别，从低到高分别为：<code>debug</code>，<code>info</code>，<code>warn</code>，<code>error</code>。我们在配置文件中可以设置输出等级，低于配置中等级的将不会被输出，我们前面的代码中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testLog</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span>(logger.isDebugEnabled()) &#123;</div><div class="line">      logger.debug(<span class="string">"this is debug level"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(logger.isInfoEnabled()) &#123;</div><div class="line">      logger.info(<span class="string">"this is info level"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    logger.warn(<span class="string">"this is warn level"</span>);</div><div class="line">    logger.error(<span class="string">"this is error level"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>若我们将输出等级设置为<code>info</code>，则只会输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2017-03-04 19:10:28 [INFO ] Log4jDemo:20 - this is info level</div><div class="line">2017-03-04 19:10:28 [WARN ] Log4jDemo:23 - this is warn level</div><div class="line">2017-03-04 19:10:28 [ERROR] Log4jDemo:24 - this is error level</div></pre></td></tr></table></figure>
+<p>这就解决了我们前面提到的第二个问题，我们在调试时调用<code>logger.debug</code>输出信息，上线之后将输出等级设置为<code>info</code>甚至<code>warn</code>，线上就不会再打印调试信息了。</p>
+<p>注意这里我们即使不判断<code>logger.isDebugEnabled()</code>，效果也是一样的，添加这一行只是为了提高效率，避免需要执行到<code>logger.debug(&quot;this is debug level&quot;);</code>这一行来判断输出结果。</p>
+<h3 id="配置文件的路径"><a href="#配置文件的路径" class="headerlink" title="配置文件的路径"></a>配置文件的路径</h3><p>如果你将配置文件<code>log4j.properties</code>放在了<code>src</code>同级路径下，则不需要配置路径，log4j会自动寻找到你的配置文件，但如果你要将配置文件置于其他地方，则需要告诉它配置在哪里：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PropertyConfigurator.configure(location);</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p>log4j配置内容的基本配置涉及3项：<code>输出等级</code>，<code>输出地址</code>，<code>输出格式</code>，配置中这一句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">log4j.rootLogger=info,dailyfile,Console</div></pre></td></tr></table></figure>
+<p><code>log4j.rootLogger</code>表明作用范围是全局，对于的后面多个逗号分隔的参数，第一个参数是输出等级，后面几个参数都是输出地址，地址的命名都是随意的，那么随意命名的<code>dailyfile</code>，<code>Console</code>，到底对应的是哪里呢？</p>
+<p>我们再看以下几行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">log4j.appender.dailyfile=org.apache.log4j.DailyRollingFileAppender</div><div class="line">log4j.appender.dailyfile.File=log/daily.log</div><div class="line">log4j.appender.dailyfile.DatePattern=.yyyyMMdd</div><div class="line">log4j.appender.dailyfile.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.dailyfile.layout.ConversionPattern=%d&#123;yyyy-MM-dd HH:mm:ss&#125; [%-5p] %c&#123;1&#125;:%L - %m%n</div></pre></td></tr></table></figure>
+<p><code>log4j.appender.dailyfile</code>起头的内容表明这些都是作用给<code>dailyfile</code>的地址，第一项<code>org.apache.log4j.DailyRollingFileAppender</code>表明输出类型，这里的类型是一个按天生成的文件，<code>log4j.appender.dailyfile.File</code>后面就是表明文件地址。</p>
+<p><code>Console</code>对应的地址一样，<code>org.apache.log4j.ConsoleAppender</code>代表的类型是输出到控制台。</p>
+<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>这里面，我们每一个输出地址，由于输出类型不一样，响应的参数多少有点不同，但基本每一个都有一项针对输出格式的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">log4j.appender.xxx.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.xxx.layout.ConversionPattern=%d&#123;yyyy-MM-dd HH:mm:ss&#125; [%-5p] %c&#123;1&#125;:%L - %m%n</div></pre></td></tr></table></figure>
+<p>对于这一行信息<code>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c{1}:%L - %m%n</code>，我们对着前面的输出内容来看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2017-03-04 19:10:28 [INFO ] Log4jDemo:20 - this is info level</div><div class="line">2017-03-04 19:10:28 [WARN ] Log4jDemo:23 - this is warn level</div><div class="line">2017-03-04 19:10:28 [ERROR] Log4jDemo:24 - this is error level</div></pre></td></tr></table></figure>
+<p><code>%d{yyyy-MM-dd HH:mm:ss}</code>：时间格式；</p>
+<p><code>[%-5p]</code>：中括号是我为了美观醒目而加上的，<code>%-5p</code>表明都用5个字符的长度来答应输出等级；</p>
+<p><code>%c{1}</code>：这是答应类名，大括号中的数字表明只打印类名的最后一部分，若改为<code>%c{2}</code>，则输出为<code>config.Log4jDemo</code>，如果想要答应全部长度，则可直接配置为<code>%c</code>；</p>
+<p><code>%L</code>：打印改行代码对应的行数；</p>
+<p>这是我常用的打印配置，是我觉得相对整齐美观的一种形式，这也帮我解决的3，4两个问题，大家也可以不断尝试出一种适合自己调试的格式，长期使用即可。</p>
+<h3 id="控制输出源"><a href="#控制输出源" class="headerlink" title="控制输出源"></a>控制输出源</h3><p>有时候我们想将对应的包里的日志输出对应的地方，我们只需增加这样一项配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">log4j.logger.com.fmyblack.util.config=info,rollfile</div></pre></td></tr></table></figure>
+<p><code>com.fmyblack.util.config</code>是包名，该包下的所有日志都会输出到<code>rollfile</code>对应的地址。</p>
+<p>但<code>log4j.rootLogger</code>是作用于全局的，我们希望这个包下的内容只打印到<code>rollfile</code>，而不用再作用于全局对应的地址时，我们只需要增加一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">log4j.additivity.com.fmyblack.util.config=false</div></pre></td></tr></table></figure>
+<p>这样一来，我们也就解决了第一个问题。</p>
 
       
     </div>
@@ -490,8 +521,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.jpeg"
@@ -567,6 +607,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码清单"><span class="nav-number">1.</span> <span class="nav-text">代码清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log4j在代码中的使用"><span class="nav-number">2.</span> <span class="nav-text">log4j在代码中的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Logger类的使用"><span class="nav-number">2.1.</span> <span class="nav-text">Logger类的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件的路径"><span class="nav-number">2.2.</span> <span class="nav-text">配置文件的路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件详解"><span class="nav-number">3.</span> <span class="nav-text">配置文件详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本配置"><span class="nav-number">3.1.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出格式"><span class="nav-number">3.2.</span> <span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制输出源"><span class="nav-number">3.3.</span> <span class="nav-text">控制输出源</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
