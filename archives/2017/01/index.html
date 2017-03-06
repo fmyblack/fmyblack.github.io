@@ -84,25 +84,12 @@
 
 
 
-<meta name="description" content="spark mllib实现方式tf-idf值$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$
-$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
-现有三分文档，分别为123a ba ca c c
-三篇都包含a，一篇包含b，两篇包含c，计算得值为：a的IDF值为0，所以a在任意一篇中的TF">
-<meta property="og:type" content="article">
-<meta property="og:title" content="分别用单机和mllib两种方式实现基于naive bayes算法的文本分类">
-<meta property="og:url" content="http://fmyblack.com/2017/02/20/分别用单机和mllib两种方式实现基于naive-bayes算法的文本分类/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="我吃两碗">
+<meta property="og:url" content="http://fmyblack.com/archives/2017/01/index.html">
 <meta property="og:site_name" content="我吃两碗">
-<meta property="og:description" content="spark mllib实现方式tf-idf值$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$
-$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
-现有三分文档，分别为123a ba ca c c
-三篇都包含a，一篇包含b，两篇包含c，计算得值为：a的IDF值为0，所以a在任意一篇中的TF">
-<meta property="og:updated_time" content="2017-03-01T08:00:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分别用单机和mllib两种方式实现基于naive bayes算法的文本分类">
-<meta name="twitter:description" content="spark mllib实现方式tf-idf值$$IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}$$
-$$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
-现有三分文档，分别为123a ba ca c c
-三篇都包含a，一篇包含b，两篇包含c，计算得值为：a的IDF值为0，所以a在任意一篇中的TF">
+<meta name="twitter:title" content="我吃两碗">
 
 
 
@@ -130,13 +117,13 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
 
 
 
-  <link rel="canonical" href="http://fmyblack.com/2017/02/20/分别用单机和mllib两种方式实现基于naive-bayes算法的文本分类/"/>
+  <link rel="canonical" href="http://fmyblack.com/archives/2017/01/"/>
 
 
 
 
 
-  <title> 分别用单机和mllib两种方式实现基于naive bayes算法的文本分类 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 归档 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -157,7 +144,7 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right  page-archive  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -249,178 +236,103 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://fmyblack.com/2017/02/20/分别用单机和mllib两种方式实现基于naive-bayes算法的文本分类/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="fmyblack">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/touxiang.jpeg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="我吃两碗">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="我吃两碗" src="">
+    <span class="archive-page-counter">
+      
+      
+      
+        
+      
+      嗯..! 目前共计 9 篇日志。 继续努力。
     </span>
-  </span>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                分别用单机和mllib两种方式实现基于naive bayes算法的文本分类
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-20T14:14:25+08:00">
-                2017-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
 
       
       
-
       
-        <h2 id="spark-mllib实现方式"><a href="#spark-mllib实现方式" class="headerlink" title="spark mllib实现方式"></a>spark mllib实现方式</h2><h3 id="tf-idf值"><a href="#tf-idf值" class="headerlink" title="tf-idf值"></a>tf-idf值</h3><p>$$<br>IDF(t, D) = \ln\frac{|D|+1}{DF(t,D) + 1}<br>$$</p>
-<p>$$<br>TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}<br>$$</p>
-<p>现有三分文档，分别为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a b</div><div class="line">a c</div><div class="line">a c c</div></pre></td></tr></table></figure></p>
-<p>三篇都包含a，一篇包含b，两篇包含c，计算得值为：<br>a的IDF值为0，所以a在任意一篇中的TF-IDF值都为0；<br>b的IDF值为 $\ln\frac{3+1}{1+1}$=0.6931471805599453$；</p>
-<p>c的IDF值为 $\ln\frac{3+1}{2+1}$=0.28768207245178085$；<br>c在第三篇出现了两次，TF(t, d)=2，所以TF-IDF值需要乘以2；</p>
-<p>最终结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(1048576,[97,98],[0.0,0.6931471805599453])</div><div class="line">(1048576,[97,99],[0.0,0.28768207245178085])</div><div class="line">(1048576,[97,99],[0.0,0.5753641449035617])</div></pre></td></tr></table></figure>
-<p>其中1048576为<code>HashingTF</code>中<code>numFeatures</code>，可以理解为hash函数中的“桶”的个数；</p>
-<h2 id="单机实现"><a href="#单机实现" class="headerlink" title="单机实现"></a>单机实现</h2><h3 id="改造mllib中的tf-idf值"><a href="#改造mllib中的tf-idf值" class="headerlink" title="改造mllib中的tf-idf值"></a>改造mllib中的tf-idf值</h3><p>$$<br>TF(t, d) = \frac{单词t出现的次数 + lamda}{类别d下单词总数 + 训练集中的单词个数 * lamda}<br>$$</p>
-<p>$$<br>IDF(t, D) = \ln\frac{|D|+2}{DF(t,D) + 1}<br>$$</p>
-<p>$$<br>TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+2}{DF(t,D) + 1}<br>$$</p>
 
-      
-    </div>
-
-    <div>
       
         
-
-      
-    </div>
-
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>我想找到丸子</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/shoukuan.png" alt="fmyblack WeChat Pay"/>
-          <p>微信打赏</p>
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
         </div>
       
       
-    </div>
-  </div>
-
 
       
-    </div>
 
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-    <footer class="post-footer">
-      
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/01/23/git常用命令及说明/" itemprop="url">
+              
+                <span itemprop="name">git常用命令及说明</span>
+              
+            </a>
+        
+      </h1>
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/02/13/常用的命名规范/" rel="next" title="常用的命名规范">
-                <i class="fa fa-chevron-left"></i> 常用的命名规范
-              </a>
-            
-          </div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-01-23T20:54:24+08:00"
+              content="2017-01-23" >
+          01-23
+        </time>
+      </div>
 
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/28/svn常用命令及说明/" rel="prev" title="svn常用命令及说明">
-                svn常用命令及说明 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
+    
+
       
-    </div>
-  </div>
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/01/23/java配置文件的使用选择/" itemprop="url">
+              
+                <span itemprop="name">java配置文件的使用选择</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-01-23T20:08:16+08:00"
+              content="2017-01-23" >
+          01-23
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+  </section>
+
+  
+
 
           
           </div>
@@ -428,10 +340,6 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -451,17 +359,8 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.jpeg"
@@ -537,22 +436,6 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-mllib实现方式"><span class="nav-number">1.</span> <span class="nav-text">spark mllib实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tf-idf值"><span class="nav-number">1.1.</span> <span class="nav-text">tf-idf值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单机实现"><span class="nav-number">2.</span> <span class="nav-text">单机实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改造mllib中的tf-idf值"><span class="nav-number">2.1.</span> <span class="nav-text">改造mllib中的tf-idf值</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
@@ -659,9 +542,11 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
+  
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
 
 
   
@@ -694,10 +579,6 @@ $$TF-IDF(t, d, D) = TF(t, d) * \ln\frac{|D|+1}{DF(t,D) + 1}$$
 
   
 
-  
-      <!-- UY BEGIN -->
-      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
-      <!-- UY END -->
   
 
 

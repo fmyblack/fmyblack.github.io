@@ -84,31 +84,12 @@
 
 
 
-<meta name="description" content="分支的创建，切换与合并svn目录结构一般如下：
-1234myproject/      trunk/      branches/      tags/
-主干代码一般在trunk目录下；
-分支建于branches下；(svn中并没有git中的branch概念，我们只是复制一个副本在这个目录下，看做视觉逻辑中的分支)
-tag打在tags下；
-分支的创建1svn copy http://example">
-<meta property="og:type" content="article">
-<meta property="og:title" content="svn常用命令及说明">
-<meta property="og:url" content="http://fmyblack.com/2017/02/28/svn常用命令及说明/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="我吃两碗">
+<meta property="og:url" content="http://fmyblack.com/archives/index.html">
 <meta property="og:site_name" content="我吃两碗">
-<meta property="og:description" content="分支的创建，切换与合并svn目录结构一般如下：
-1234myproject/      trunk/      branches/      tags/
-主干代码一般在trunk目录下；
-分支建于branches下；(svn中并没有git中的branch概念，我们只是复制一个副本在这个目录下，看做视觉逻辑中的分支)
-tag打在tags下；
-分支的创建1svn copy http://example">
-<meta property="og:updated_time" content="2017-02-28T03:20:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="svn常用命令及说明">
-<meta name="twitter:description" content="分支的创建，切换与合并svn目录结构一般如下：
-1234myproject/      trunk/      branches/      tags/
-主干代码一般在trunk目录下；
-分支建于branches下；(svn中并没有git中的branch概念，我们只是复制一个副本在这个目录下，看做视觉逻辑中的分支)
-tag打在tags下；
-分支的创建1svn copy http://example">
+<meta name="twitter:title" content="我吃两碗">
 
 
 
@@ -136,13 +117,13 @@ tag打在tags下；
 
 
 
-  <link rel="canonical" href="http://fmyblack.com/2017/02/28/svn常用命令及说明/"/>
+  <link rel="canonical" href="http://fmyblack.com/archives/"/>
 
 
 
 
 
-  <title> svn常用命令及说明 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 归档 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -163,7 +144,7 @@ tag打在tags下；
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right  page-archive  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -255,181 +236,362 @@ tag打在tags下；
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://fmyblack.com/2017/02/28/svn常用命令及说明/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="fmyblack">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/touxiang.jpeg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="我吃两碗">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="我吃两碗" src="">
+    <span class="archive-page-counter">
+      
+      
+      
+        
+      
+      嗯..! 目前共计 9 篇日志。 继续努力。
     </span>
-  </span>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                svn常用命令及说明
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-28T10:51:23+08:00">
-                2017-02-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
 
       
       
-
       
-        <h2 id="分支的创建，切换与合并"><a href="#分支的创建，切换与合并" class="headerlink" title="分支的创建，切换与合并"></a>分支的创建，切换与合并</h2><p>svn目录结构一般如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">myproject/</div><div class="line">      trunk/</div><div class="line">      branches/</div><div class="line">      tags/</div></pre></td></tr></table></figure>
-<p>主干代码一般在trunk目录下；</p>
-<p>分支建于branches下；(svn中并没有git中的branch概念，我们只是复制一个副本在这个目录下，看做视觉逻辑中的分支)</p>
-<p>tag打在tags下；</p>
-<h3 id="分支的创建"><a href="#分支的创建" class="headerlink" title="分支的创建"></a>分支的创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn copy http://example.com/repos/myproject/trunk http://example.com/repos/myproject/branches/releaseForAug -m &apos;create branch for release on August&apos;</div></pre></td></tr></table></figure>
-<h3 id="分支的切换"><a href="#分支的切换" class="headerlink" title="分支的切换"></a>分支的切换</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn sw svn://113.31.136.130/uar/codes/backend</div></pre></td></tr></table></figure>
-<h3 id="分支的合并"><a href="#分支的合并" class="headerlink" title="分支的合并"></a>分支的合并</h3><p>如果需要将分支合并到主干：</p>
-<p>第一步：切换到主干</p>
-<p>第二步：执行svn merge，merge后面是分支路径</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn merge http://example.com/repos/myproject/branches/releaseForAug</div></pre></td></tr></table></figure>
-<p>也可以指定版本，如将分支中的版本150到当前的修改合并进来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn merge  http://example.com/repos/myproject/branches/releaseForAug -r150:HEAD</div></pre></td></tr></table></figure>
-<p>主干合并到分支也是一样的执行逻辑，因为我们说了主干与分支只是我们设置的目录结构逻辑。</p>
 
-      
-    </div>
-
-    <div>
       
         
-
-      
-    </div>
-
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>我想找到丸子</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/shoukuan.png" alt="fmyblack WeChat Pay"/>
-          <p>微信打赏</p>
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
         </div>
       
       
-    </div>
-  </div>
-
 
       
-    </div>
 
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-    <footer class="post-footer">
-      
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/03/04/java参数传递/" itemprop="url">
+              
+                <span itemprop="name">java参数传递</span>
+              
+            </a>
+        
+      </h1>
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/02/20/分别用单机和mllib两种方式实现基于naive-bayes算法的文本分类/" rel="next" title="分别用单机和mllib两种方式实现基于naive bayes算法的文本分类">
-                <i class="fa fa-chevron-left"></i> 分别用单机和mllib两种方式实现基于naive bayes算法的文本分类
-              </a>
-            
-          </div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-03-04T19:59:30+08:00"
+              content="2017-03-04" >
+          03-04
+        </time>
+      </div>
 
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/04/log4j使用详解/" rel="prev" title="log4j使用详解">
-                log4j使用详解 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
+    
+
       
-    </div>
-  </div>
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/03/04/log4j使用详解/" itemprop="url">
+              
+                <span itemprop="name">log4j使用详解</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-03-04T15:51:21+08:00"
+              content="2017-03-04" >
+          03-04
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/02/28/svn常用命令及说明/" itemprop="url">
+              
+                <span itemprop="name">svn常用命令及说明</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-02-28T10:51:23+08:00"
+              content="2017-02-28" >
+          02-28
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/02/20/分别用单机和mllib两种方式实现基于naive-bayes算法的文本分类/" itemprop="url">
+              
+                <span itemprop="name">分别用单机和mllib两种方式实现基于naive bayes算法的文本分类</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-02-20T14:14:25+08:00"
+              content="2017-02-20" >
+          02-20
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/02/13/常用的命名规范/" itemprop="url">
+              
+                <span itemprop="name">常用的命名规范</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-02-13T10:59:19+08:00"
+              content="2017-02-13" >
+          02-13
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/02/10/Collection之list/" itemprop="url">
+              
+                <span itemprop="name">Collection之list</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-02-10T19:27:08+08:00"
+              content="2017-02-10" >
+          02-10
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/02/05/hashmap的两种遍历方式耗时对比/" itemprop="url">
+              
+                <span itemprop="name">hashmap的两种遍历方式耗时对比</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-02-05T17:52:54+08:00"
+              content="2017-02-05" >
+          02-05
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/01/23/git常用命令及说明/" itemprop="url">
+              
+                <span itemprop="name">git常用命令及说明</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-01-23T20:54:24+08:00"
+              content="2017-01-23" >
+          01-23
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2017/01/23/java配置文件的使用选择/" itemprop="url">
+              
+                <span itemprop="name">java配置文件的使用选择</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-01-23T20:08:16+08:00"
+              content="2017-01-23" >
+          01-23
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+
+    
+
+  </section>
+
+  
+
 
           
           </div>
@@ -437,10 +599,6 @@ tag打在tags下；
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -460,17 +618,8 @@ tag打在tags下；
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.jpeg"
@@ -546,22 +695,6 @@ tag打在tags下；
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分支的创建，切换与合并"><span class="nav-number">1.</span> <span class="nav-text">分支的创建，切换与合并</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分支的创建"><span class="nav-number">1.1.</span> <span class="nav-text">分支的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支的切换"><span class="nav-number">1.2.</span> <span class="nav-text">分支的切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支的合并"><span class="nav-number">1.3.</span> <span class="nav-text">分支的合并</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
@@ -668,9 +801,11 @@ tag打在tags下；
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
+  
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
 
 
   
@@ -703,10 +838,6 @@ tag打在tags下；
 
   
 
-  
-      <!-- UY BEGIN -->
-      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
-      <!-- UY END -->
   
 
 
