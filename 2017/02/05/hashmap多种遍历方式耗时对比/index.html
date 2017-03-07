@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="git,shell," />
+  <meta name="keywords" content="java,性能," />
 
 
 
@@ -84,25 +84,22 @@
 
 
 
-<meta name="description" content="git基本命令初始化git1git init
-创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。
-添加文件1git add test.txt
-将新建文件添加进版本控制">
+<meta name="description" content="平时自己常用两种方式来遍历HashMap，foreach和iterator今天测试了一下这两种方式的性能对比。
+foreach方法1使用了foreach方法，内容体中可以完全获得遍历的每一个key和value：
+123456public static void foreach1(Map&amp;lt;String, String&amp;gt; map) &amp;#123;    for(Map.Entry&amp;lt;St">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git常用命令及说明">
-<meta property="og:url" content="http://fmyblack.com/2017/01/23/git常用命令及说明/index.html">
+<meta property="og:title" content="hashmap多种遍历方式耗时对比">
+<meta property="og:url" content="http://fmyblack.com/2017/02/05/hashmap多种遍历方式耗时对比/index.html">
 <meta property="og:site_name" content="我吃两碗">
-<meta property="og:description" content="git基本命令初始化git1git init
-创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。
-添加文件1git add test.txt
-将新建文件添加进版本控制">
-<meta property="og:updated_time" content="2017-01-26T09:40:15.000Z">
+<meta property="og:description" content="平时自己常用两种方式来遍历HashMap，foreach和iterator今天测试了一下这两种方式的性能对比。
+foreach方法1使用了foreach方法，内容体中可以完全获得遍历的每一个key和value：
+123456public static void foreach1(Map&amp;lt;String, String&amp;gt; map) &amp;#123;    for(Map.Entry&amp;lt;St">
+<meta property="og:updated_time" content="2017-03-07T01:29:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git常用命令及说明">
-<meta name="twitter:description" content="git基本命令初始化git1git init
-创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。
-添加文件1git add test.txt
-将新建文件添加进版本控制">
+<meta name="twitter:title" content="hashmap多种遍历方式耗时对比">
+<meta name="twitter:description" content="平时自己常用两种方式来遍历HashMap，foreach和iterator今天测试了一下这两种方式的性能对比。
+foreach方法1使用了foreach方法，内容体中可以完全获得遍历的每一个key和value：
+123456public static void foreach1(Map&amp;lt;String, String&amp;gt; map) &amp;#123;    for(Map.Entry&amp;lt;St">
 
 
 
@@ -130,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://fmyblack.com/2017/01/23/git常用命令及说明/"/>
+  <link rel="canonical" href="http://fmyblack.com/2017/02/05/hashmap多种遍历方式耗时对比/"/>
 
 
 
 
 
-  <title> git常用命令及说明 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> hashmap多种遍历方式耗时对比 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +256,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://fmyblack.com/2017/01/23/git常用命令及说明/">
+  <link itemprop="mainEntityOfPage" href="http://fmyblack.com/2017/02/05/hashmap多种遍历方式耗时对比/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="fmyblack">
@@ -283,7 +280,7 @@
             
             
               
-                git常用命令及说明
+                hashmap多种遍历方式耗时对比
               
             
           </h1>
@@ -298,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T20:54:24+08:00">
-                2017-01-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-05T17:52:54+08:00">
+                2017-02-05
               </time>
             
 
@@ -321,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
+                  <a href="/categories/java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">java基础</span>
                   </a>
                 </span>
 
@@ -361,32 +358,17 @@
       
 
       
-        <h2 id="git基本命令"><a href="#git基本命令" class="headerlink" title="git基本命令"></a>git基本命令</h2><h3 id="初始化git"><a href="#初始化git" class="headerlink" title="初始化git"></a>初始化git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure>
-<p>创建版本库，在空目录或者已有项目下都可执行，效果为创建了一个.git文件夹。</p>
-<h3 id="添加文件"><a href="#添加文件" class="headerlink" title="添加文件"></a>添加文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add test.txt</div></pre></td></tr></table></figure>
-<p>将新建文件添加进版本控制<a id="more"></a></p>
-<p>如果想把文件夹下的所有内容添加进版本控制，增加参数-f<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add -f src</div></pre></td></tr></table></figure></p>
-<h3 id="提交修改"><a href="#提交修改" class="headerlink" title="提交修改"></a>提交修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit -m &quot;修改说明&quot;</div></pre></td></tr></table></figure>
-<h3 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
-<p>查看哪些文本被修改了</p>
-<h3 id="查看具体文件修改内容"><a href="#查看具体文件修改内容" class="headerlink" title="查看具体文件修改内容"></a>查看具体文件修改内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git diff test.text</div></pre></td></tr></table></figure>
-<h3 id="查看提交历史记录"><a href="#查看提交历史记录" class="headerlink" title="查看提交历史记录"></a>查看提交历史记录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git log</div></pre></td></tr></table></figure>
-<p>将多行log合为一行，便于查看</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git log --pretty=oneline</div></pre></td></tr></table></figure>
-<h3 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h3><p>回退到上一个版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD^</div></pre></td></tr></table></figure>
-<p>回退到上上个版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD^^</div></pre></td></tr></table></figure>
-<p>往上回退100个版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD~100</div></pre></td></tr></table></figure>
-<p> 回退或者前进（如撤销回退）到指定版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard 43847384...</div></pre></td></tr></table></figure>
-<p><em><code>43847384</code>为版本前几位，版本号为SHA1加密串</em></p>
-<h3 id="查看操作历史记录"><a href="#查看操作历史记录" class="headerlink" title="查看操作历史记录"></a>查看操作历史记录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reflog</div></pre></td></tr></table></figure>
-<h3 id="放弃某文件的修改"><a href="#放弃某文件的修改" class="headerlink" title="放弃某文件的修改"></a>放弃某文件的修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -- test.txt</div></pre></td></tr></table></figure>
-<p>将test.txt会退到最近一次的git add状态（有点类似svn的还原）。</p>
-<h3 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rm test.txt</div></pre></td></tr></table></figure>
-<h3 id="推送到远程主机"><a href="#推送到远程主机" class="headerlink" title="推送到远程主机"></a>推送到远程主机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin master</div></pre></td></tr></table></figure>
+        <p>平时自己常用两种方式来遍历HashMap，foreach和iterator今天测试了一下这两种方式的性能对比。</p>
+<h2 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h2><p>方法1使用了foreach方法，内容体中可以完全获得遍历的每一个key和value：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">foreach1</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span>(Map.Entry&lt;String, String&gt; entry : map.entrySet()) &#123;</div><div class="line">        String key = entry.getKey();</div><div class="line">        String value = entry.getValue();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="iterator"><a href="#iterator" class="headerlink" title="iterator"></a>iterator</h2><p>方法2使用了迭代器的方式，也可以遍历获得每一个key和value：<a id="more"></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">foreach2</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</div><div class="line">    Iterator&lt;Entry&lt;String, String&gt;&gt; it = map.entrySet().iterator();</div><div class="line">    <span class="keyword">while</span>(it.hasNext()) &#123;</div><div class="line">        Entry&lt;String, String&gt; entry = it.next();</div><div class="line">        String key = entry.getKey();</div><div class="line">        String value = entry.getValue();	</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a>性能对比</h2><p>运行如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">  	Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</div><div class="line">    <span class="comment">// 省略了填充map部分</span></div><div class="line">    System.out.println(map.size());</div><div class="line">    <span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">    foreach1(map);</div><div class="line">    <span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">    System.out.println(<span class="string">"using foreach coast "</span> + (end - start) + <span class="string">" ms"</span>);</div><div class="line">    start = System.currentTimeMillis();</div><div class="line">    foreach2(map);</div><div class="line">    end = System.currentTimeMillis();</div><div class="line">    System.out.println(<span class="string">"using iterator coast "</span> + (end - start) + <span class="string">" ms"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">11509190</div><div class="line">using foreach coast 569 ms</div><div class="line">using iterator coast 596 ms</div></pre></td></tr></table></figure>
+<p>多次试验结果与此都相差不大。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>可以看到对于110万+的map而言，两个遍历方式耗时差异依旧很小。</p>
 
       
     </div>
@@ -426,9 +408,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/git/" rel="tag"># git</a>
+            <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/shell/" rel="tag"># shell</a>
+            <a href="/tags/性能/" rel="tag"># 性能</a>
           
         </div>
       
@@ -437,8 +419,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/23/java配置文件的使用选择/" rel="next" title="java配置文件的使用选择">
-                <i class="fa fa-chevron-left"></i> java配置文件的使用选择
+              <a href="/2017/01/23/git常用命令及说明/" rel="next" title="git常用命令及说明">
+                <i class="fa fa-chevron-left"></i> git常用命令及说明
               </a>
             
           </div>
@@ -447,8 +429,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/05/hashmap多种遍历方式耗时对比/" rel="prev" title="hashmap多种遍历方式耗时对比">
-                hashmap多种遍历方式耗时对比 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/02/10/Collection之list/" rel="prev" title="Collection之list">
+                Collection之list <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -592,7 +574,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#git基本命令"><span class="nav-number">1.</span> <span class="nav-text">git基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化git"><span class="nav-number">1.1.</span> <span class="nav-text">初始化git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加文件"><span class="nav-number">1.2.</span> <span class="nav-text">添加文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交修改"><span class="nav-number">1.3.</span> <span class="nav-text">提交修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看状态"><span class="nav-number">1.4.</span> <span class="nav-text">查看状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看具体文件修改内容"><span class="nav-number">1.5.</span> <span class="nav-text">查看具体文件修改内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看提交历史记录"><span class="nav-number">1.6.</span> <span class="nav-text">查看提交历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本回退"><span class="nav-number">1.7.</span> <span class="nav-text">版本回退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看操作历史记录"><span class="nav-number">1.8.</span> <span class="nav-text">查看操作历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#放弃某文件的修改"><span class="nav-number">1.9.</span> <span class="nav-text">放弃某文件的修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文件"><span class="nav-number">1.10.</span> <span class="nav-text">删除文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推送到远程主机"><span class="nav-number">1.11.</span> <span class="nav-text">推送到远程主机</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#foreach"><span class="nav-number">1.</span> <span class="nav-text">foreach</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iterator"><span class="nav-number">2.</span> <span class="nav-text">iterator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能对比"><span class="nav-number">3.</span> <span class="nav-text">性能对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li></ol></div>
             
 
           </div>
