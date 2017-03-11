@@ -1,0 +1,816 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="elasticsearch,性能," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpeg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这两天看到了elasticsearch官方出的一篇关于es索引性能小技巧的文章，也遭遇了它所提到的indexing-heavy environment，就按照它上面的小技巧做了一些简单的测试实验，抛砖引玉。
+
+实验前提关于如何科学测试，文中提到了四点，原文摘引如下，注释为简单的翻译和理解：
+12341. Test performance on a single node, with a singl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch索引性能压测实验及优化过程">
+<meta property="og:url" content="http://fmyblack.com/2017/03/09/elasticsearch索引性能压测实验及优化过程/index.html">
+<meta property="og:site_name" content="我吃两碗">
+<meta property="og:description" content="这两天看到了elasticsearch官方出的一篇关于es索引性能小技巧的文章，也遭遇了它所提到的indexing-heavy environment，就按照它上面的小技巧做了一些简单的测试实验，抛砖引玉。
+
+实验前提关于如何科学测试，文中提到了四点，原文摘引如下，注释为简单的翻译和理解：
+12341. Test performance on a single node, with a singl">
+<meta property="og:updated_time" content="2017-03-11T14:06:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearch索引性能压测实验及优化过程">
+<meta name="twitter:description" content="这两天看到了elasticsearch官方出的一篇关于es索引性能小技巧的文章，也遭遇了它所提到的indexing-heavy environment，就按照它上面的小技巧做了一些简单的测试实验，抛砖引玉。
+
+实验前提关于如何科学测试，文中提到了四点，原文摘引如下，注释为简单的翻译和理解：
+12341. Test performance on a single node, with a singl">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fmyblack.com/2017/03/09/elasticsearch索引性能压测实验及优化过程/"/>
+
+
+
+
+
+  <title> elasticsearch索引性能压测实验及优化过程 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">我吃两碗</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">找到丸子</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://fmyblack.com/2017/03/09/elasticsearch索引性能压测实验及优化过程/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="fmyblack">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/touxiang.jpeg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="我吃两碗">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="我吃两碗" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                elasticsearch索引性能压测实验及优化过程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T18:52:37+08:00">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/elasticsearch/" itemprop="url" rel="index">
+                    <span itemprop="name">elasticsearch</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这两天看到了elasticsearch官方出的一篇关于<a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/indexing-performance.html" target="_blank" rel="external">es索引性能小技巧</a>的文章，也遭遇了它所提到的<code>indexing-heavy environment</code>，就按照它上面的小技巧做了一些简单的测试实验，抛砖引玉。</p>
+<hr>
+<h2 id="实验前提"><a href="#实验前提" class="headerlink" title="实验前提"></a>实验前提</h2><p>关于如何科学测试，文中提到了四点，原文摘引如下，注释为简单的翻译和理解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. Test performance on a single node, with a single shard and no replicas.  <span class="comment">// 在单节点单分片上进行实验</span></div><div class="line"><span class="number">2</span>. Record performance under <span class="number">100</span>% <span class="keyword">default</span> settings so that you have a baseline to measure against.  <span class="comment">// 记录在默认setting下的性能作为参照系</span></div><div class="line"><span class="number">3</span>. <span class="function">Make sure performance tests run <span class="keyword">for</span> a <span class="keyword">long</span> <span class="title">time</span> <span class="params">(<span class="number">30</span>+ minutes)</span> so you can evaluate <span class="keyword">long</span>-term performance, not <span class="keyword">short</span>-term spikes or latencies. Some <span class="title">events</span> <span class="params">(such as segment merging, and GCs)</span> won’t happen right away, so the performance profile can change over time.  <span class="comment">// 压测过程至少在30分钟，太短的话，segment，gc等影响因素很难体现出来</span></span></div><div class="line">4. Begin making single changes to the baseline defaults. Test these rigorously, and <span class="keyword">if</span> performance improvement is acceptable, keep the setting and move on to the next one. <span class="comment">// 每次只改一个默认setting参数，如果有效果，保持这个参数然后继续修改下一个</span></div></pre></td></tr></table></figure>
+<hr>
+<h2 id="测试清单"><a href="#测试清单" class="headerlink" title="测试清单"></a>测试清单</h2><p>机器环境：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cpu cores	: <span class="number">8</span></div><div class="line">mem			: <span class="number">32</span></div></pre></td></tr></table></figure>
+<p>运行环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">java version &quot;1.8.0_111&quot;</div><div class="line">es	 version 2.2.0</div></pre></td></tr></table></figure>
+<p>测试变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">读取一个文件，文件14万+行</div><div class="line">10线程并发写，每个轮训100次写操作</div></pre></td></tr></table></figure>
+<p>测试代码地址：<a href="https://github.com/fmyblack/fmyblack-es/blob/master/src/main/java/com/fmyblack/fmyes/bulk/BulkPerformanceTest.java" target="_blank" rel="external">https://github.com/fmyblack/fmyblack-es/blob/master/src/main/java/com/fmyblack/fmyes/bulk/BulkPerformanceTest.java</a></p>
+<hr>
+<h2 id="测试情况"><a href="#测试情况" class="headerlink" title="测试情况"></a>测试情况</h2><h3 id="初始组"><a href="#初始组" class="headerlink" title="初始组"></a>初始组</h3><h4 id="测试条件"><a href="#测试条件" class="headerlink" title="测试条件"></a>测试条件</h4><p>程序情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">读取文件，单线程循环300次插入，每次bulk34000条，(34000条约为5M)</div></pre></td></tr></table></figure>
+<p>elasticsearch.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">cluster.name: es-test</div><div class="line"></div><div class="line">node.name: pf</div><div class="line"></div><div class="line">network.host: <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></div><div class="line">transport.tcp.port: <span class="number">9305</span></div><div class="line">http.port: <span class="number">9205</span></div><div class="line"></div><div class="line">bootstrap.mlockall: <span class="literal">true</span></div><div class="line"></div><div class="line">data.path: /home/test/data1</div><div class="line"></div><div class="line"><span class="attr">threadpool:</span></div><div class="line"><span class="attr">    index:</span></div><div class="line"><span class="attr">        type:</span> fixed</div><div class="line"><span class="attr">        size:</span> <span class="number">24</span></div><div class="line"><span class="attr">        queue_size:</span> <span class="number">1000</span></div></pre></td></tr></table></figure>
+<p>setting</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">运行时间：2600468mills</div><div class="line"></div><div class="line">gc:</div><div class="line">Total time (O/Y): 36ms / 11729ms</div><div class="line">Total count (O/Y): 1 / 655</div></pre></td></tr></table></figure>
+<h3 id="增加bulk数量"><a href="#增加bulk数量" class="headerlink" title="增加bulk数量"></a>增加bulk数量</h3><h4 id="测试条件-1"><a href="#测试条件-1" class="headerlink" title="测试条件"></a>测试条件</h4><p>在上一组的基础上，增加bulk数量为68000条</p>
+<p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">2547462</div><div class="line"></div><div class="line">Total time (O/Y): 51ms / 15178ms</div><div class="line">Total count (O/Y): 1 / 674</div></pre></td></tr></table></figure>
+<h3 id="增加线程数"><a href="#增加线程数" class="headerlink" title="增加线程数"></a>增加线程数</h3><h4 id="测试条件-2"><a href="#测试条件-2" class="headerlink" title="测试条件"></a>测试条件</h4><p>将上一组单线程循环300次修改为10线程并发，每个线程循环30次</p>
+<h4 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">908941</div><div class="line"></div><div class="line">Total time (O/Y): 506ms / 41846ms</div><div class="line">Total count (O/Y): 8 / 883</div></pre></td></tr></table></figure>
+<h3 id="修改translog"><a href="#修改translog" class="headerlink" title="修改translog"></a>修改translog</h3><h4 id="测试条件-3"><a href="#测试条件-3" class="headerlink" title="测试条件"></a>测试条件</h4><p>增大translog.flush_threshold_size的值，setting如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="测试结果-2"><a href="#测试结果-2" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">869363</div><div class="line"></div><div class="line">Total time (O/Y): 605ms / 43028ms</div><div class="line">Total count (O/Y): 9 / 883</div></pre></td></tr></table></figure>
+<h3 id="修改refresh-interval"><a href="#修改refresh-interval" class="headerlink" title="修改refresh_interval"></a>修改refresh_interval</h3><h4 id="测试条件-4"><a href="#测试条件-4" class="headerlink" title="测试条件"></a>测试条件</h4><p>为了增加索引速度，放弃索引查询的实时性，将refresh_interval从默认值1s增加到30s，setting如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;refresh_interval&quot;:&quot;30s&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="测试结果-3"><a href="#测试结果-3" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">764206</div><div class="line"></div><div class="line">Total time (O/Y): 1276ms / 48046ms</div><div class="line">Total count (O/Y): 13 / 694</div></pre></td></tr></table></figure>
+<h3 id="进一步修改refresh-interval"><a href="#进一步修改refresh-interval" class="headerlink" title="进一步修改refresh_interval"></a>进一步修改refresh_interval</h3><h4 id="测试条件-5"><a href="#测试条件-5" class="headerlink" title="测试条件"></a>测试条件</h4><p>如果完全不需要自动刷入数据，可以将refresh_interval值改为-1，setting如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;refresh_interval&quot;:&quot;-1&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">792199</div><div class="line"></div><div class="line">Total time (O/Y): 774ms / 49176ms</div><div class="line">Total count (O/Y): 12 / 654</div></pre></td></tr></table></figure>
+<h3 id="修改indices-store-throttle-type"><a href="#修改indices-store-throttle-type" class="headerlink" title="修改indices.store.throttle.type"></a>修改indices.store.throttle.type</h3><h4 id="测试条件-6"><a href="#测试条件-6" class="headerlink" title="测试条件"></a>测试条件</h4><p>修改indices.store.throttle.type值为none，setting如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;refresh_interval&quot;:&quot;30s&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;transient&quot; : &#123;</div><div class="line">        &quot;indices.store.throttle.type&quot; : &quot;none&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="测试结果-4"><a href="#测试结果-4" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">797605</div><div class="line"></div><div class="line">Total time (O/Y): 838ms / 49800ms</div><div class="line">Total count (O/Y): 13 / 667</div></pre></td></tr></table></figure>
+<hr>
+<p>接下去就要修改elasticsearch.yml了</p>
+<h3 id="修改磁盘merge线程数"><a href="#修改磁盘merge线程数" class="headerlink" title="修改磁盘merge线程数"></a>修改磁盘merge线程数</h3><h4 id="测试条件-7"><a href="#测试条件-7" class="headerlink" title="测试条件"></a>测试条件</h4><p>修改index.merge.scheduler.max_thread_count值为1，yml增加一行</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.merge.scheduler.max_thread_count: <span class="number">1</span></div></pre></td></tr></table></figure>
+<h4 id="测试结果-5"><a href="#测试结果-5" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">827758</div><div class="line"></div><div class="line">Total time (O/Y): 955ms / 48171ms</div><div class="line">Total count (O/Y): 12 / 664</div></pre></td></tr></table></figure>
+<h3 id="修改索引线程池"><a href="#修改索引线程池" class="headerlink" title="修改索引线程池"></a>修改索引线程池</h3><h4 id="测试条件-8"><a href="#测试条件-8" class="headerlink" title="测试条件"></a>测试条件</h4><p>去除上一组中index.merge.scheduler.max_thread_count: 1这一行，将threadpool.index.size从24改为16</p>
+<h4 id="测试结果-6"><a href="#测试结果-6" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">803181</div><div class="line"></div><div class="line">Total time (O/Y): 897ms / 47888ms</div><div class="line">Total count (O/Y): 12 / 645</div></pre></td></tr></table></figure>
+<h3 id="增加shard"><a href="#增加shard" class="headerlink" title="增加shard"></a>增加shard</h3><h4 id="测试条件-9"><a href="#测试条件-9" class="headerlink" title="测试条件"></a>测试条件</h4><p>将shard数从1增加为2</p>
+<h4 id="测试结果-7"><a href="#测试结果-7" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">692789</div><div class="line"></div><div class="line">Total time (O/Y): 1119ms / 50727ms</div><div class="line">Total count (O/Y): 14 / 687</div></pre></td></tr></table></figure>
+<h3 id="增加文件路径"><a href="#增加文件路径" class="headerlink" title="增加文件路径"></a>增加文件路径</h3><h4 id="测试条件-10"><a href="#测试条件-10" class="headerlink" title="测试条件"></a>测试条件</h4><p>增加conf.path路径为两个，但两个都属于一个文件系统下，启动es查看如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">using [<span class="number">2</span>] data paths, mounts [[/home (/dev/mapper/vg_logv01-lv_home)]], net usable_space [<span class="number">1.6</span>tb], net total_space [<span class="number">1.7</span>tb], spins? [possibly], types [ext4]</div></pre></td></tr></table></figure>
+<h4 id="测试结果-8"><a href="#测试结果-8" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">697630</div><div class="line"></div><div class="line">Total time (O/Y): 1081ms / 51236ms</div><div class="line">Total count (O/Y): 13 / 687</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>我想找到丸子</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/shoukuan.png" alt="fmyblack WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
+          
+            <a href="/tags/性能/" rel="tag"># 性能</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/04/java参数传递/" rel="next" title="java参数传递">
+                <i class="fa fa-chevron-left"></i> java参数传递
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.jpeg"
+               alt="fmyblack" />
+          <p class="site-author-name" itemprop="name">fmyblack</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/fmyblack" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/fmyblack" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验前提"><span class="nav-number">1.</span> <span class="nav-text">实验前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试清单"><span class="nav-number">2.</span> <span class="nav-text">测试清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试情况"><span class="nav-number">3.</span> <span class="nav-text">测试情况</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始组"><span class="nav-number">3.1.</span> <span class="nav-text">初始组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件"><span class="nav-number">3.1.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果"><span class="nav-number">3.1.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加bulk数量"><span class="nav-number">3.2.</span> <span class="nav-text">增加bulk数量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">测试条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加线程数"><span class="nav-number">3.3.</span> <span class="nav-text">增加线程数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-1"><span class="nav-number">3.3.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改translog"><span class="nav-number">3.4.</span> <span class="nav-text">修改translog</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-2"><span class="nav-number">3.4.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改refresh-interval"><span class="nav-number">3.5.</span> <span class="nav-text">修改refresh_interval</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-4"><span class="nav-number">3.5.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-3"><span class="nav-number">3.5.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进一步修改refresh-interval"><span class="nav-number">3.6.</span> <span class="nav-text">进一步修改refresh_interval</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-5"><span class="nav-number">3.6.1.</span> <span class="nav-text">测试条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改indices-store-throttle-type"><span class="nav-number">3.7.</span> <span class="nav-text">修改indices.store.throttle.type</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-6"><span class="nav-number">3.7.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-4"><span class="nav-number">3.7.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改磁盘merge线程数"><span class="nav-number">3.8.</span> <span class="nav-text">修改磁盘merge线程数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-7"><span class="nav-number">3.8.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-5"><span class="nav-number">3.8.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改索引线程池"><span class="nav-number">3.9.</span> <span class="nav-text">修改索引线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-8"><span class="nav-number">3.9.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-6"><span class="nav-number">3.9.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加shard"><span class="nav-number">3.10.</span> <span class="nav-text">增加shard</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-9"><span class="nav-number">3.10.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-7"><span class="nav-number">3.10.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加文件路径"><span class="nav-number">3.11.</span> <span class="nav-text">增加文件路径</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试条件-10"><span class="nav-number">3.11.1.</span> <span class="nav-text">测试条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-8"><span class="nav-number">3.11.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">fmyblack</span>
+</div>
+
+<!--
+
+-->
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i> 访问人数<span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i> 总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>次</span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+
+</body>
+</html>
