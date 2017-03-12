@@ -96,7 +96,7 @@
 
 实验前提关于如何科学测试，文中提到了四点，原文摘引如下，注释为简单的翻译和理解：
 12341. Test performance on a single node, with a singl">
-<meta property="og:updated_time" content="2017-03-11T14:06:18.000Z">
+<meta property="og:updated_time" content="2017-03-12T03:46:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch索引性能压测实验及优化过程">
 <meta name="twitter:description" content="这两天看到了elasticsearch官方出的一篇关于es索引性能小技巧的文章，也遭遇了它所提到的indexing-heavy environment，就按照它上面的小技巧做了一些简单的测试实验，抛砖引玉。
@@ -295,12 +295,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T18:52:37+08:00">
                 2017-03-09
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北师大教二
+              
             
 
             
@@ -365,6 +368,7 @@
 <hr>
 <h2 id="实验前提"><a href="#实验前提" class="headerlink" title="实验前提"></a>实验前提</h2><p>关于如何科学测试，文中提到了四点，原文摘引如下，注释为简单的翻译和理解：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. Test performance on a single node, with a single shard and no replicas.  <span class="comment">// 在单节点单分片上进行实验</span></div><div class="line"><span class="number">2</span>. Record performance under <span class="number">100</span>% <span class="keyword">default</span> settings so that you have a baseline to measure against.  <span class="comment">// 记录在默认setting下的性能作为参照系</span></div><div class="line"><span class="number">3</span>. <span class="function">Make sure performance tests run <span class="keyword">for</span> a <span class="keyword">long</span> <span class="title">time</span> <span class="params">(<span class="number">30</span>+ minutes)</span> so you can evaluate <span class="keyword">long</span>-term performance, not <span class="keyword">short</span>-term spikes or latencies. Some <span class="title">events</span> <span class="params">(such as segment merging, and GCs)</span> won’t happen right away, so the performance profile can change over time.  <span class="comment">// 压测过程至少在30分钟，太短的话，segment，gc等影响因素很难体现出来</span></span></div><div class="line">4. Begin making single changes to the baseline defaults. Test these rigorously, and <span class="keyword">if</span> performance improvement is acceptable, keep the setting and move on to the next one. <span class="comment">// 每次只改一个默认setting参数，如果有效果，保持这个参数然后继续修改下一个</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
 <hr>
 <h2 id="测试清单"><a href="#测试清单" class="headerlink" title="测试清单"></a>测试清单</h2><p>机器环境：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cpu cores	: <span class="number">8</span></div><div class="line">mem			: <span class="number">32</span></div></pre></td></tr></table></figure>
@@ -548,7 +552,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -557,7 +561,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

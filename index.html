@@ -287,12 +287,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T18:52:37+08:00">
                 2017-03-09
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北师大教二
+              
             
 
             
@@ -349,59 +352,17 @@
 
       
         
-          
-            <p>这两天看到了elasticsearch官方出的一篇关于<a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/indexing-performance.html" target="_blank" rel="external">es索引性能小技巧</a>的文章，也遭遇了它所提到的<code>indexing-heavy environment</code>，就按照它上面的小技巧做了一些简单的测试实验，抛砖引玉。</p>
+          <p>这两天看到了elasticsearch官方出的一篇关于<a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/indexing-performance.html">es索引性能小技巧</a>的文章，也遭遇了它所提到的<code>indexing-heavy environment</code>，就按照它上面的小技巧做了一些简单的测试实验，抛砖引玉。</p>
 <hr>
 <h2 id="实验前提"><a href="#实验前提" class="headerlink" title="实验前提"></a>实验前提</h2><p>关于如何科学测试，文中提到了四点，原文摘引如下，注释为简单的翻译和理解：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. Test performance on a single node, with a single shard and no replicas.  <span class="comment">// 在单节点单分片上进行实验</span></div><div class="line"><span class="number">2</span>. Record performance under <span class="number">100</span>% <span class="keyword">default</span> settings so that you have a baseline to measure against.  <span class="comment">// 记录在默认setting下的性能作为参照系</span></div><div class="line"><span class="number">3</span>. <span class="function">Make sure performance tests run <span class="keyword">for</span> a <span class="keyword">long</span> <span class="title">time</span> <span class="params">(<span class="number">30</span>+ minutes)</span> so you can evaluate <span class="keyword">long</span>-term performance, not <span class="keyword">short</span>-term spikes or latencies. Some <span class="title">events</span> <span class="params">(such as segment merging, and GCs)</span> won’t happen right away, so the performance profile can change over time.  <span class="comment">// 压测过程至少在30分钟，太短的话，segment，gc等影响因素很难体现出来</span></span></div><div class="line">4. Begin making single changes to the baseline defaults. Test these rigorously, and <span class="keyword">if</span> performance improvement is acceptable, keep the setting and move on to the next one. <span class="comment">// 每次只改一个默认setting参数，如果有效果，保持这个参数然后继续修改下一个</span></div></pre></td></tr></table></figure>
-<hr>
-<h2 id="测试清单"><a href="#测试清单" class="headerlink" title="测试清单"></a>测试清单</h2><p>机器环境：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cpu cores	: <span class="number">8</span></div><div class="line">mem			: <span class="number">32</span></div></pre></td></tr></table></figure>
-<p>运行环境：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">java version &quot;1.8.0_111&quot;</div><div class="line">es	 version 2.2.0</div></pre></td></tr></table></figure>
-<p>测试变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">读取一个文件，文件14万+行</div><div class="line">10线程并发写，每个轮训100次写操作</div></pre></td></tr></table></figure>
-<p>测试代码地址：<a href="https://github.com/fmyblack/fmyblack-es/blob/master/src/main/java/com/fmyblack/fmyes/bulk/BulkPerformanceTest.java" target="_blank" rel="external">https://github.com/fmyblack/fmyblack-es/blob/master/src/main/java/com/fmyblack/fmyes/bulk/BulkPerformanceTest.java</a></p>
-<hr>
-<h2 id="测试情况"><a href="#测试情况" class="headerlink" title="测试情况"></a>测试情况</h2><h3 id="初始组"><a href="#初始组" class="headerlink" title="初始组"></a>初始组</h3><h4 id="测试条件"><a href="#测试条件" class="headerlink" title="测试条件"></a>测试条件</h4><p>程序情况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">读取文件，单线程循环300次插入，每次bulk34000条，(34000条约为5M)</div></pre></td></tr></table></figure>
-<p>elasticsearch.yml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">cluster.name: es-test</div><div class="line"></div><div class="line">node.name: pf</div><div class="line"></div><div class="line">network.host: <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></div><div class="line">transport.tcp.port: <span class="number">9305</span></div><div class="line">http.port: <span class="number">9205</span></div><div class="line"></div><div class="line">bootstrap.mlockall: <span class="literal">true</span></div><div class="line"></div><div class="line">data.path: /home/test/data1</div><div class="line"></div><div class="line"><span class="attr">threadpool:</span></div><div class="line"><span class="attr">    index:</span></div><div class="line"><span class="attr">        type:</span> fixed</div><div class="line"><span class="attr">        size:</span> <span class="number">24</span></div><div class="line"><span class="attr">        queue_size:</span> <span class="number">1000</span></div></pre></td></tr></table></figure>
-<p>setting</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">运行时间：2600468mills</div><div class="line"></div><div class="line">gc:</div><div class="line">Total time (O/Y): 36ms / 11729ms</div><div class="line">Total count (O/Y): 1 / 655</div></pre></td></tr></table></figure>
-<h3 id="增加bulk数量"><a href="#增加bulk数量" class="headerlink" title="增加bulk数量"></a>增加bulk数量</h3><h4 id="测试条件-1"><a href="#测试条件-1" class="headerlink" title="测试条件"></a>测试条件</h4><p>在上一组的基础上，增加bulk数量为68000条</p>
-<p>测试结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">2547462</div><div class="line"></div><div class="line">Total time (O/Y): 51ms / 15178ms</div><div class="line">Total count (O/Y): 1 / 674</div></pre></td></tr></table></figure>
-<h3 id="增加线程数"><a href="#增加线程数" class="headerlink" title="增加线程数"></a>增加线程数</h3><h4 id="测试条件-2"><a href="#测试条件-2" class="headerlink" title="测试条件"></a>测试条件</h4><p>将上一组单线程循环300次修改为10线程并发，每个线程循环30次</p>
-<h4 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">908941</div><div class="line"></div><div class="line">Total time (O/Y): 506ms / 41846ms</div><div class="line">Total count (O/Y): 8 / 883</div></pre></td></tr></table></figure>
-<h3 id="修改translog"><a href="#修改translog" class="headerlink" title="修改translog"></a>修改translog</h3><h4 id="测试条件-3"><a href="#测试条件-3" class="headerlink" title="测试条件"></a>测试条件</h4><p>增大translog.flush_threshold_size的值，setting如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="测试结果-2"><a href="#测试结果-2" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">869363</div><div class="line"></div><div class="line">Total time (O/Y): 605ms / 43028ms</div><div class="line">Total count (O/Y): 9 / 883</div></pre></td></tr></table></figure>
-<h3 id="修改refresh-interval"><a href="#修改refresh-interval" class="headerlink" title="修改refresh_interval"></a>修改refresh_interval</h3><h4 id="测试条件-4"><a href="#测试条件-4" class="headerlink" title="测试条件"></a>测试条件</h4><p>为了增加索引速度，放弃索引查询的实时性，将refresh_interval从默认值1s增加到30s，setting如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;refresh_interval&quot;:&quot;30s&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="测试结果-3"><a href="#测试结果-3" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">764206</div><div class="line"></div><div class="line">Total time (O/Y): 1276ms / 48046ms</div><div class="line">Total count (O/Y): 13 / 694</div></pre></td></tr></table></figure>
-<h3 id="进一步修改refresh-interval"><a href="#进一步修改refresh-interval" class="headerlink" title="进一步修改refresh_interval"></a>进一步修改refresh_interval</h3><h4 id="测试条件-5"><a href="#测试条件-5" class="headerlink" title="测试条件"></a>测试条件</h4><p>如果完全不需要自动刷入数据，可以将refresh_interval值改为-1，setting如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;refresh_interval&quot;:&quot;-1&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>测试结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">792199</div><div class="line"></div><div class="line">Total time (O/Y): 774ms / 49176ms</div><div class="line">Total count (O/Y): 12 / 654</div></pre></td></tr></table></figure>
-<h3 id="修改indices-store-throttle-type"><a href="#修改indices-store-throttle-type" class="headerlink" title="修改indices.store.throttle.type"></a>修改indices.store.throttle.type</h3><h4 id="测试条件-6"><a href="#测试条件-6" class="headerlink" title="测试条件"></a>测试条件</h4><p>修改indices.store.throttle.type值为none，setting如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;index&quot;:&#123;</div><div class="line">        &quot;number_of_shards&quot;:&quot;1&quot;,</div><div class="line">        &quot;number_of_replicas&quot;:&quot;0&quot;,</div><div class="line">        &quot;translog&quot;:&#123;</div><div class="line">            &quot;flush_threshold_size&quot;: &quot;1GB&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;refresh_interval&quot;:&quot;30s&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;transient&quot; : &#123;</div><div class="line">        &quot;indices.store.throttle.type&quot; : &quot;none&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="测试结果-4"><a href="#测试结果-4" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">797605</div><div class="line"></div><div class="line">Total time (O/Y): 838ms / 49800ms</div><div class="line">Total count (O/Y): 13 / 667</div></pre></td></tr></table></figure>
-<hr>
-<p>接下去就要修改elasticsearch.yml了</p>
-<h3 id="修改磁盘merge线程数"><a href="#修改磁盘merge线程数" class="headerlink" title="修改磁盘merge线程数"></a>修改磁盘merge线程数</h3><h4 id="测试条件-7"><a href="#测试条件-7" class="headerlink" title="测试条件"></a>测试条件</h4><p>修改index.merge.scheduler.max_thread_count值为1，yml增加一行</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.merge.scheduler.max_thread_count: <span class="number">1</span></div></pre></td></tr></table></figure>
-<h4 id="测试结果-5"><a href="#测试结果-5" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">827758</div><div class="line"></div><div class="line">Total time (O/Y): 955ms / 48171ms</div><div class="line">Total count (O/Y): 12 / 664</div></pre></td></tr></table></figure>
-<h3 id="修改索引线程池"><a href="#修改索引线程池" class="headerlink" title="修改索引线程池"></a>修改索引线程池</h3><h4 id="测试条件-8"><a href="#测试条件-8" class="headerlink" title="测试条件"></a>测试条件</h4><p>去除上一组中index.merge.scheduler.max_thread_count: 1这一行，将threadpool.index.size从24改为16</p>
-<h4 id="测试结果-6"><a href="#测试结果-6" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">803181</div><div class="line"></div><div class="line">Total time (O/Y): 897ms / 47888ms</div><div class="line">Total count (O/Y): 12 / 645</div></pre></td></tr></table></figure>
-<h3 id="增加shard"><a href="#增加shard" class="headerlink" title="增加shard"></a>增加shard</h3><h4 id="测试条件-9"><a href="#测试条件-9" class="headerlink" title="测试条件"></a>测试条件</h4><p>将shard数从1增加为2</p>
-<h4 id="测试结果-7"><a href="#测试结果-7" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">692789</div><div class="line"></div><div class="line">Total time (O/Y): 1119ms / 50727ms</div><div class="line">Total count (O/Y): 14 / 687</div></pre></td></tr></table></figure>
-<h3 id="增加文件路径"><a href="#增加文件路径" class="headerlink" title="增加文件路径"></a>增加文件路径</h3><h4 id="测试条件-10"><a href="#测试条件-10" class="headerlink" title="测试条件"></a>测试条件</h4><p>增加conf.path路径为两个，但两个都属于一个文件系统下，启动es查看如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">using [<span class="number">2</span>] data paths, mounts [[/home (/dev/mapper/vg_logv01-lv_home)]], net usable_space [<span class="number">1.6</span>tb], net total_space [<span class="number">1.7</span>tb], spins? [possibly], types [ext4]</div></pre></td></tr></table></figure>
-<h4 id="测试结果-8"><a href="#测试结果-8" class="headerlink" title="测试结果"></a>测试结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">697630</div><div class="line"></div><div class="line">Total time (O/Y): 1081ms / 51236ms</div><div class="line">Total count (O/Y): 13 / 687</div></pre></td></tr></table></figure>
-
-          
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. Test performance on a single node, with a single shard and no replicas.  <span class="comment">// 在单节点单分片上进行实验</span></div><div class="line"><span class="number">2</span>. Record performance under <span class="number">100</span>% <span class="keyword">default</span> settings so that you have a baseline to measure against.  <span class="comment">// 记录在默认setting下的性能作为参照系</span></div><div class="line"><span class="number">3</span>. <span class="function">Make sure performance tests run <span class="keyword">for</span> a <span class="keyword">long</span> <span class="title">time</span> <span class="params">(<span class="number">30</span>+ minutes)</span> so you can evaluate <span class="keyword">long</span>-term performance, not <span class="keyword">short</span>-term spikes or latencies. Some <span class="title">events</span> <span class="params">(such as segment merging, and GCs)</span> won’t happen right away, so the performance profile can change over time.  <span class="comment">// 压测过程至少在30分钟，太短的话，segment，gc等影响因素很难体现出来</span></div><div class="line">4. Begin making single changes to the baseline defaults. Test these rigorously, and <span class="keyword">if</span> performance improvement is acceptable, keep the setting and move on to the next one. <span class="comment">// 每次只改一个默认setting参数，如果有效果，保持这个参数然后继续修改下一个</span></span></div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/09/elasticsearch索引性能压测实验及优化过程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -477,12 +438,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T19:59:30+08:00">
                 2017-03-04
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北师大教二
+              
             
 
             
@@ -623,12 +587,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T15:51:21+08:00">
                 2017-03-04
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北师大教二
+              
             
 
             
@@ -776,12 +743,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-28T10:51:23+08:00">
                 2017-02-28
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北京文慧园
+              
             
 
             
@@ -789,6 +759,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/svn/" itemprop="url" rel="index">
+                    <span itemprop="name">svn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -908,12 +900,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-20T14:14:25+08:00">
                 2017-02-20
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北京文慧园
+              
             
 
             
@@ -921,6 +916,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1037,12 +1054,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-13T10:59:19+08:00">
                 2017-02-13
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北京国英园
+              
             
 
             
@@ -1050,6 +1070,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1158,12 +1200,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-10T19:27:08+08:00">
                 2017-02-10
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北京文慧园
+              
             
 
             
@@ -1305,12 +1350,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-05T17:52:54+08:00">
                 2017-02-05
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                北京文慧园
+              
             
 
             
@@ -1453,12 +1501,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T20:54:24+08:00">
                 2017-01-23
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                绍兴丰岛花苑
+              
             
 
             
@@ -1601,12 +1652,15 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T20:08:16+08:00">
                 2017-01-23
               </time>
+              
+                
+                  <span class="post-meta-item-text">于</span>
+                
+                绍兴丰岛花苑
+              
             
 
             
@@ -1751,7 +1805,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1760,7 +1814,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
