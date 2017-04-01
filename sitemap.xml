@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://fmyblack.com/categories/index.html</loc>
+    
+    <lastmod>2017-04-01T08:39:55.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fmyblack.com/tags/index.html</loc>
+    
+    <lastmod>2017-04-01T08:39:16.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://fmyblack.com/2017/03/04/log4j%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/</loc>
     
     <lastmod>2017-03-31T09:51:46.000Z</lastmod>
@@ -61,20 +75,6 @@
     <loc>http://fmyblack.com/2017/02/10/Collection%E4%B9%8Blist/</loc>
     
     <lastmod>2017-03-12T03:49:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://fmyblack.com/tags/index.html</loc>
-    
-    <lastmod>2017-01-14T12:20:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://fmyblack.com/categories/index.html</loc>
-    
-    <lastmod>2017-01-14T12:20:22.000Z</lastmod>
     
   </url>
   
