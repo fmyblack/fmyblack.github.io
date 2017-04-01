@@ -16,6 +16,7 @@
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<script src="/js/src/jweixin-1.0.0.js"></script>
 
 
 
@@ -68,7 +69,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="性能,java," />
+  <meta name="keywords" content="java,性能," />
 
 
 
@@ -101,6 +102,22 @@ foreach方法1使用了foreach方法，内容体中可以完全获得遍历的�
 foreach方法1使用了foreach方法，内容体中可以完全获得遍历的每一个key和value：
 123456public static void foreach1(Map&amp;lt;String, String&amp;gt; map) &amp;#123;    for(Map.Entry&amp;lt;St">
 
+<script type="text/javascript">
+wx.onMenuShareAppMessage({
+    title: 'test', // 分享标题
+    desc: 'test', // 分享描述
+    link: '', // 分享链接
+    imgUrl: '/images/smalltx.jpeg', // 分享图标
+    type: '', // 分享类型,music、video或link，不填默认为link
+    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    success: function () { 
+        // 用户确认分享后执行的回调函数
+    },
+    cancel: function () { 
+        // 用户取消分享后执行的回调函数
+    }
+});
+</script>
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -133,64 +150,8 @@ foreach方法1使用了foreach方法，内容体中可以完全获得遍历的�
 
 
 
-  <title> hashmap多种遍历方式耗时对比 | 我吃两碗 </title>
-
-  <script>
-        var imgUrl = "/images/smalltx.jpeg";
-        var lineLink = "http://www.pptfans.cn";
-        var descContent = '办公必备的PPT资源站，高品质PPT教程、高质量PPT素材免费下载。';
-        var shareTitle = 'PPTfans-PPT超好资源整理';
-        var appid = '';
-           
-        function shareFriend() {
-            WeixinJSBridge.invoke('sendAppMessage',{
-                "appid": appid,
-                "img_url": imgUrl,
-                "img_width": "200",
-                "img_height": "200",
-                "link": lineLink,
-                "desc": descContent,
-                "title": shareTitle
-            }, function(res) {
-                //_report('send_msg', res.err_msg);
-            })
-        }
-        function shareTimeline() {
-            WeixinJSBridge.invoke('shareTimeline',{
-                "img_url": imgUrl,
-                "img_width": "200",
-                "img_height": "200",
-                "link": lineLink,
-                "desc": descContent,
-                "title": shareTitle
-            }, function(res) {
-                   //_report('timeline', res.err_msg);
-            });
-        }
-        function shareWeibo() {
-            WeixinJSBridge.invoke('shareWeibo',{
-                "content": descContent,
-                "url": lineLink,
-            }, function(res) {
-                //_report('weibo', res.err_msg);
-            });
-        }
-        // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
-        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-            // 发送给好友
-            WeixinJSBridge.on('menu:share:appmessage', function(argv){
-                shareFriend();
-            });
-            // 分享到朋友圈
-            WeixinJSBridge.on('menu:share:timeline', function(argv){
-                shareTimeline();
-            });
-            // 分享到微博
-            WeixinJSBridge.on('menu:share:weibo', function(argv){
-                shareWeibo();
-            });
-        }, false);
-</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> hashmap多种遍历方式耗时对比 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+          
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -471,9 +432,9 @@ foreach方法1使用了foreach方法，内容体中可以完全获得遍历的�
       
         <div class="post-tags">
           
-            <a href="/tags/性能/" rel="tag"># 性能</a>
-          
             <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/性能/" rel="tag"># 性能</a>
           
         </div>
       

@@ -16,6 +16,7 @@
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<script src="/js/src/jweixin-1.0.0.js"></script>
 
 
 
@@ -98,6 +99,22 @@
 <meta name="twitter:description" content="基本上，每个java项目总是需要读取配置，由于项目部署与本地的一些些微差异，我们有时会发现本地运行正常的服务正式部署之后却运行失败，有时，这就是由最基础的读取配置造成的。
 为了方便解决之后通用项目的配置读取问题，特意新写了一个配置读取类：">
 
+<script type="text/javascript">
+wx.onMenuShareAppMessage({
+    title: 'test', // 分享标题
+    desc: 'test', // 分享描述
+    link: '', // 分享链接
+    imgUrl: '/images/smalltx.jpeg', // 分享图标
+    type: '', // 分享类型,music、video或link，不填默认为link
+    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    success: function () { 
+        // 用户确认分享后执行的回调函数
+    },
+    cancel: function () { 
+        // 用户取消分享后执行的回调函数
+    }
+});
+</script>
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -130,64 +147,8 @@
 
 
 
-  <title> java配置文件的使用选择 | 我吃两碗 </title>
-
-  <script>
-        var imgUrl = "/images/smalltx.jpeg";
-        var lineLink = "http://www.pptfans.cn";
-        var descContent = '办公必备的PPT资源站，高品质PPT教程、高质量PPT素材免费下载。';
-        var shareTitle = 'PPTfans-PPT超好资源整理';
-        var appid = '';
-           
-        function shareFriend() {
-            WeixinJSBridge.invoke('sendAppMessage',{
-                "appid": appid,
-                "img_url": imgUrl,
-                "img_width": "200",
-                "img_height": "200",
-                "link": lineLink,
-                "desc": descContent,
-                "title": shareTitle
-            }, function(res) {
-                //_report('send_msg', res.err_msg);
-            })
-        }
-        function shareTimeline() {
-            WeixinJSBridge.invoke('shareTimeline',{
-                "img_url": imgUrl,
-                "img_width": "200",
-                "img_height": "200",
-                "link": lineLink,
-                "desc": descContent,
-                "title": shareTitle
-            }, function(res) {
-                   //_report('timeline', res.err_msg);
-            });
-        }
-        function shareWeibo() {
-            WeixinJSBridge.invoke('shareWeibo',{
-                "content": descContent,
-                "url": lineLink,
-            }, function(res) {
-                //_report('weibo', res.err_msg);
-            });
-        }
-        // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
-        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-            // 发送给好友
-            WeixinJSBridge.on('menu:share:appmessage', function(argv){
-                shareFriend();
-            });
-            // 分享到朋友圈
-            WeixinJSBridge.on('menu:share:timeline', function(argv){
-                shareTimeline();
-            });
-            // 分享到微博
-            WeixinJSBridge.on('menu:share:weibo', function(argv){
-                shareWeibo();
-            });
-        }, false);
-</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> java配置文件的使用选择 | 我吃两碗 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+          
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
